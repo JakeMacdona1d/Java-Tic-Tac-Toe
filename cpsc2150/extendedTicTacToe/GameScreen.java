@@ -44,7 +44,7 @@ public class GameScreen {
                 winner = game.checkForWinner(pos);
             }
 
-            System.out.println("Player " + player[game.getTurnsPlayed()%2] + " wins!");
+            System.out.println("Player " + player[(game.getTurnsPlayed() -1) % 2] + " wins!");
 
             char repeatInput;
             boolean error = false;

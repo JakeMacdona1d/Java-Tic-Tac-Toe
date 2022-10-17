@@ -148,33 +148,18 @@ public interface IGameBoard {
         // start with one to include self.
         int count = 1; 
 
-        // indicates if check should continue for direction
-        boolean lookPos = true, lookNeg = true;
-
         for (int j = 1; j <= getNumToWin() -1; j++) {
-            if (lookPos) { // checking if outside bounds
-                int curX = x + (j);
-                if (curX >= getNumColumns() ) {
-                    lookPos = false;
-                } else {
-                    //if (board[curX][y] == player)
-                    if (whatsAtPos(new BoardPosition(curX,y)) == player)
-                        count++;
-                    else lookPos = false;
-                }
-            }
-
-            if (lookNeg) { // checking if outside bounds
-                int curX = x - (j);
-                if (curX < 0) {
-                    lookNeg = false;
-                } else {
-                    // if (board[curX][y] == player)
-                    if (whatsAtPos(new BoardPosition(curX,y)) == player)
-                        count++;
-                    else lookNeg = false;
-                }
-            }
+        
+            int curX = x + (j);
+            if (curX < getNumColumns())
+                if (whatsAtPos(new BoardPosition(curX,y)) == player) 
+                    count++;
+            
+            curX = x - (j);
+            if (curX >= 0)
+                if (whatsAtPos(new BoardPosition(curX,y)) == player) 
+                    count++;
+           
             if (count >= getNumToWin()) return true;
         }
         return false;
@@ -196,33 +181,18 @@ public interface IGameBoard {
         // start with one to include self.
         int count = 1; 
 
-        // indicates if check should continue for direction
-        boolean lookPos = true, lookNeg = true;
-
         for (int j = 1; j <= getNumToWin() - 1; j++) {
-            if (lookPos) { // checking if outside bounds
-                int curY = y + (j);
-                if (curY >= getNumRows()) {
-                    lookPos = false;
-                } else {
-                    // if (board[x][curY] == player)
-                    if (whatsAtPos(new BoardPosition(x,curY)) == player)
-                        count++;
-                    else lookPos = false;
-                }
-            }
+           
+            int curY = y + (j);
+            if (curY < getNumRows())
+                if (whatsAtPos(new BoardPosition(x,curY)) == player) 
+                    count++;
+            
+            curY = y - (j);
+            if (curY >= 0)
+                if (whatsAtPos(new BoardPosition(x,curY)) == player) 
+                    count++;
 
-            if (lookNeg) { // checking if outside bounds
-                int curY = y - (j);
-                if (curY < 0) {
-                    lookNeg = false;
-                } else {
-                    // if (board[x][curY] == player)
-                    if (whatsAtPos(new BoardPosition(x,curY)) == player)
-                        count++;
-                    else lookNeg = false;
-                }
-            }
             if (count >= getNumToWin()) return true;
         }
         
@@ -255,37 +225,19 @@ public interface IGameBoard {
             // start with one to include self.
             int count = 1; 
 
-            // indicates if check should continue for direction
-            boolean lookPos = true, lookNeg = true;
-        
             for (int j = 1; j <= getNumToWin(); j++) {
-                if (lookPos) { // checking if outside bounds
-                    int curX = x + (j * growX);
-                    int curY = y + (j * growY);
-                    if ((curX < 0 || curX >= getNumColumns()) 
-                    || (curY < 0 || curY >= getNumRows())) {
-                        lookPos = false;
-                    } else {
-                        // if (board[curX][curY] == player)
-                        if (whatsAtPos(new BoardPosition(curX,curY)) == player)
-                            count++;
-                        else lookPos = false;
-                    }
-                }
+                // k flips sign value, thus allows check in both directions
+                for (int k = -1; k <= 1 ; k++) {
+                    if (k == 0) continue;
+        
+                    int curX = x + (j * growX * k);
+                    int curY = y + (j * growY *k);
 
-                if (lookNeg) { // checking if outside bounds
-                    int curX = x - (j * growX);
-                    int curY = y + (j * growY);
-                    if ((curX < 0 || curX >= getNumColumns()) 
-                    || (curY < 0 || curY >= getNumRows())) {
-                        lookNeg = false;
-                    } else {
+                    if ((curX >= 0 && curX < getNumColumns()) 
+                        && (curY >= 0 && curY < getNumRows()))
                         if (whatsAtPos(new BoardPosition(curX,curY)) == player)
-                            count++;
-                        else lookNeg = false;
-                    }
+                                count++;
                 }
-
                 if (count >= getNumToWin()) return true;
             }
         }
