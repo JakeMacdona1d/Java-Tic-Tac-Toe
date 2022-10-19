@@ -35,7 +35,7 @@ public class GameScreen {
                         + " Please enter your COLUMN");
 
                     int x = scanner.nextInt();
-                    pos = new BoardPosition(x, y); 
+                    pos = new BoardPosition(y, x); 
                     error = true;
                 } while (!game.checkSpace(pos));
 

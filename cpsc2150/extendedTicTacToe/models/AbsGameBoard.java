@@ -14,7 +14,7 @@ public abstract class AbsGameBoard implements IGameBoard {
      * @return a string representation of the GameBoard
      * 
      * @post toString = "
-     *    0|1|2|3|4|5|6|7|
+     *    0 1 2 3 4 5 6 7 
         0| | | | | | | | |
         1| | | | | | | | |
         2| | | | | | | | |
@@ -27,18 +27,18 @@ public abstract class AbsGameBoard implements IGameBoard {
     */
     @Override
     public String toString() {
-       String boardScheme = "  ";
+       String boardScheme = " ";
        int boardWidth = getNumColumns();
        int boardHeight = getNumRows();
        char[][] board = new char [getNumColumns()][getNumRows()];
        for (int i = 0; getNumRows() > i; i++)
            for (int j = 0; getNumColumns() > j; j++) {
-               BoardPosition copy = new BoardPosition(j,i);
+               BoardPosition copy = new BoardPosition(i,j);
                board[j][i] = whatsAtPos(copy);
            }
         
        for (int i = 0; i < boardWidth; i++) {
-            boardScheme += Integer.toString(i) + "|";
+            boardScheme += " " + Integer.toString(i);
        }
        boardScheme += "\n";
 

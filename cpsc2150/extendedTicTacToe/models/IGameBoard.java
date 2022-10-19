@@ -152,12 +152,12 @@ public interface IGameBoard {
         
             int curX = x + (j);
             if (curX < getNumColumns())
-                if (whatsAtPos(new BoardPosition(curX,y)) == player) 
+                if (whatsAtPos(new BoardPosition(y,curX)) == player) 
                     count++;
             
             curX = x - (j);
             if (curX >= 0)
-                if (whatsAtPos(new BoardPosition(curX,y)) == player) 
+                if (whatsAtPos(new BoardPosition(y,curX)) == player) 
                     count++;
            
             if (count >= getNumToWin()) return true;
@@ -185,12 +185,12 @@ public interface IGameBoard {
            
             int curY = y + (j);
             if (curY < getNumRows())
-                if (whatsAtPos(new BoardPosition(x,curY)) == player) 
+                if (whatsAtPos(new BoardPosition(curY,x)) == player) 
                     count++;
             
             curY = y - (j);
             if (curY >= 0)
-                if (whatsAtPos(new BoardPosition(x,curY)) == player) 
+                if (whatsAtPos(new BoardPosition(curY,x)) == player) 
                     count++;
 
             if (count >= getNumToWin()) return true;
@@ -235,7 +235,7 @@ public interface IGameBoard {
 
                     if ((curX >= 0 && curX < getNumColumns()) 
                         && (curY >= 0 && curY < getNumRows()))
-                        if (whatsAtPos(new BoardPosition(curX,curY)) == player)
+                        if (whatsAtPos(new BoardPosition(curY,curX)) == player)
                                 count++;
                 }
                 if (count >= getNumToWin()) return true;

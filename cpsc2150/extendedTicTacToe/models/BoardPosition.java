@@ -23,8 +23,8 @@ public class BoardPosition{
      * @post Row = x AND Column = y
      */
     public BoardPosition(int x, int y) {
-        Row = y;
-        Column = x;
+        Row = x;
+        Column = y;
     }
 
 
@@ -80,7 +80,7 @@ public class BoardPosition{
      */
     @Override
     public String toString() {
-        String s = Row + ", " + Column; 
+        String s = Row + "," + Column; 
         return s;
     }
 }

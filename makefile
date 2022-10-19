@@ -6,3 +6,6 @@ run: cpsc2150/extendedTicTacToe/*.class
 clean:
 	rm -f cpsc2150/extendedTicTacToe/GameScreen.class
 	rm -f cpsc2150/extendedTicTacToe/models/*.class
+zip:
+	rm project.zip
+	zip project.zip -r cpsc2150 makefile report.pdf
