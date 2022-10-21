@@ -17,6 +17,7 @@ public class GameScreen {
             GameBoard game = new GameBoard();
             boolean winner = false;
 
+            int turnsPlayed = 0;
             while (!winner) {
                 BoardPosition pos = new BoardPosition(0, 0);
                 boolean error = false;
@@ -26,12 +27,12 @@ public class GameScreen {
                             + " please pick again");
                     }
                     // either a 1 or 0, matches player array
-                    System.out.println("Player " + player[game.getTurnsPlayed() %2]
+                    System.out.println("Player " + player[turnsPlayed%2]
                         + " Please enter your ROW");
 
                     int y = scanner.nextInt();
 
-                    System.out.println("Player " + player[game.getTurnsPlayed()%2]
+                    System.out.println("Player " + player[turnsPlayed%2]
                         + " Please enter your COLUMN");
 
                     int x = scanner.nextInt();
@@ -39,12 +40,13 @@ public class GameScreen {
                     error = true;
                 } while (!game.checkSpace(pos));
 
-                game.placeMarker(pos, player[game.getTurnsPlayed()%2]);
+                game.placeMarker(pos, player[turnsPlayed%2]);
                 System.out.println(game.toString());
                 winner = game.checkForWinner(pos);
+                turnsPlayed++;
             }
 
-            System.out.println("Player " + player[(game.getTurnsPlayed() -1) % 2] + " wins!");
+            System.out.println("Player " + player[(turnsPlayed-1) % 2] + " wins!");
 
             char repeatInput;
             boolean error = false;

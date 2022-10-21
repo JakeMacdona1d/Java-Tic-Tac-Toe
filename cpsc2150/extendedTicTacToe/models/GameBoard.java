@@ -6,16 +6,14 @@ package cpsc2150.extendedTicTacToe.models;
  * @invariant  0 <= turnsplayed <= (colNum * rowNum) AND winNeed = #winNeed 
  *              And colNum = #colNum AND rowNum = #rowNum 
  * 
- * @correspondences Turns = turnsPlayed AND NumRows = rowNum AND 
- *  NumColumns = colNum AND NumToWin = winNeed AND self = board
+ * @correspondences self = board[0..MAX_ROW_NUM-1][0..MAX_COLUMN_NUM-1]
  */
 
 // GameBoard extends AbsGameBoard which implements IGameBoard
-public class GameBoard extends AbsGameBoard{
-    private int rowNum = 5;
-    private int colNum = 8;
-    private int winNeed = 5;
-    private int turnsPlayed = 0;
+public class GameBoard extends AbsGameBoard implements IGameBoard{
+    private static final int rowNum = 5;
+    private static final int colNum = 8;
+    private static final int winNeed = 5;
     private char[][] board = new char [colNum][rowNum];
 
     /**
@@ -27,13 +25,6 @@ public class GameBoard extends AbsGameBoard{
             for (int j = 0; j < rowNum; j++) {
                 board[i][j] = ' ';
             }
-    }
-
-    /*
-     * returns a value equal to winNeed
-     */
-    public int getTurnsPlayed() {
-        return turnsPlayed;
     }
 
     /*
@@ -71,7 +62,6 @@ public class GameBoard extends AbsGameBoard{
     public void placeMarker (BoardPosition marker, char player) {
         if (checkSpace(marker)) {
             board[marker.getColumn()][marker.getRow()] = player;
-            turnsPlayed++;
         }
     }
 }

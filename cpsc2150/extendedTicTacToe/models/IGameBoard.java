@@ -6,8 +6,9 @@ package cpsc2150.extendedTicTacToe.models;
  * tic-tac-toe gameboard 
  * 
  * Initialization ensures: GameBoard is able to represent 
- * a table of two dimensions. Each element 
- *  of the GameBoard initiates with a value of ' '.
+ * a table of two dimensions containing characters. Each element 
+ *  of the GameBoard initiates with a value of ' '. Additionally, 
+ * the gameboard is a 5X8
  * 
  * Defines: Turns: Z AND NumRows: AND NumColumns: Z AND NumToWin: Z
  * 
@@ -24,15 +25,15 @@ public interface IGameBoard {
       */
       public char whatsAtPos (BoardPosition pos); 
 
-    /**
-     * getTurnsPlayed provides value of Turns
-     * 
-     *@return integer count of Turns.
+    // /**
+    //  * getTurnsPlayed provides value of Turns
+    //  * 
+    //  *@return integer count of Turns.
 
-     * @post self = #self AND getTurnsPlayed() = Turns AND Turns = #Turns
-     */
+    //  * @post self = #self AND getTurnsPlayed() = Turns AND Turns = #Turns
+    //  */
 
-    public int getTurnsPlayed();
+    // public int getTurnsPlayed();
       
     /**
      * provides value of NumRows 
@@ -148,17 +149,27 @@ public interface IGameBoard {
         // start with one to include self.
         int count = 1; 
 
+        //Stop looking in this direction once 
+        boolean stopPos = false; 
+        boolean stopNeg = false; 
+
         for (int j = 1; j <= getNumToWin() -1; j++) {
         
             int curX = x + (j);
-            if (curX < getNumColumns())
-                if (whatsAtPos(new BoardPosition(y,curX)) == player) 
-                    count++;
-            
+            if (!stopPos)
+                if (curX < getNumColumns())
+                    if (whatsAtPos(new BoardPosition(y,curX)) == player) 
+                        count++;
+                    else
+                        stopPos = true;
+                    
             curX = x - (j);
-            if (curX >= 0)
-                if (whatsAtPos(new BoardPosition(y,curX)) == player) 
-                    count++;
+            if (!stopNeg)
+                if (curX >= 0)
+                    if (whatsAtPos(new BoardPosition(y,curX)) == player) 
+                        count++;
+                    else stopNeg = true;
+                    
            
             if (count >= getNumToWin()) return true;
         }
@@ -181,17 +192,24 @@ public interface IGameBoard {
         // start with one to include self.
         int count = 1; 
 
+        boolean stopPos = false; 
+        boolean stopNeg = false; 
+
         for (int j = 1; j <= getNumToWin() - 1; j++) {
            
             int curY = y + (j);
-            if (curY < getNumRows())
-                if (whatsAtPos(new BoardPosition(curY,x)) == player) 
-                    count++;
+            if (!stopPos)
+                if (curY < getNumRows())
+                    if (whatsAtPos(new BoardPosition(curY,x)) == player) 
+                        count++;
+                    else stopPos = true;
             
             curY = y - (j);
-            if (curY >= 0)
-                if (whatsAtPos(new BoardPosition(curY,x)) == player) 
-                    count++;
+            if (!stopNeg)
+                if (curY >= 0)
+                    if (whatsAtPos(new BoardPosition(curY,x)) == player) 
+                        count++;
+                    else stopNeg = true;
 
             if (count >= getNumToWin()) return true;
         }
@@ -225,6 +243,10 @@ public interface IGameBoard {
             // start with one to include self.
             int count = 1; 
 
+            // since board dimensions permits the longest adj as
+            // equivalent to the winNeed, no stopPos, or stopNeg
+            // is currently needed
+
             for (int j = 1; j <= getNumToWin(); j++) {
                 // k flips sign value, thus allows check in both directions
                 for (int k = -1; k <= 1 ; k++) {
@@ -248,9 +270,28 @@ public interface IGameBoard {
      * This function determines if all board possible board placements are occupied.
      *@return a boolean indicating occurence of draw. 
      * @post self = #self AND checkForDraw =
-     *      [true if Turns >= getNumColumns() * getNumRows()]
+     *      [true if there exists no possible win condition for either team]
      */
     default public boolean checkForDraw() {
-        return (getTurnsPlayed() >= getNumColumns() * getNumRows());
+        for (int i = 0; getNumColumns() > i; i++)
+            for (int j = 0; getNumRows() > j; j++) {
+                BoardPosition test = new BoardPosition(j,i);
+                if (whatsAtPos(test) != ' ') continue;
+
+                char player = 'X';
+                if (checkHorizontalWin(test, player) ||
+                checkVerticalWin(test, player) ||
+                checkDiagonalWin(test, player))
+                    return false;
+                
+                player = 'O';
+                if (checkHorizontalWin(test, player) ||
+                checkVerticalWin(test, player) ||
+                checkDiagonalWin(test, player))
+                    return false;
+            }
+
+
+        return true;
     }
 }
