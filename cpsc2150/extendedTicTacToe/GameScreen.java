@@ -10,15 +10,94 @@ public class GameScreen {
 
         // Creates an object that will read in data from the command line.
         Scanner scanner = new Scanner(System.in);
-        char[] player = {'X','O'};
         boolean encore = true;
 
         while (encore) { 
-            GameBoard game = new GameBoard();
+
+            int col = 0;
+            int row = 0;
+            int winNeed = 0;
+            int playerCount = 0;
+
+            int lowerBoundPos = 3;
+            int upperBoundPos = 100;
+
+            int lowerBoundW = 3;
+            int upperBoundW = 25;
+
+            int lowerBoundP = 2;
+            int upperBoundP = 10;
+
+
+            do {
+                System.out.println("Enter the number of columns on the gameboard");
+
+                int temp = scanner.nextInt();
+
+                if (temp >= lowerBoundPos && temp <= upperBoundPos)
+                    col = temp;
+                else  System.out.println("Column number must be in range of ["+
+                Integer.toString(lowerBoundPos)+","+Integer.toString(upperBoundPos)+"]");
+
+            } while(col == 0);
+
+            do {
+                System.out.println("Enter the number of rows on the gameboard");
+
+                int temp = scanner.nextInt();
+
+                if (temp >= lowerBoundPos && temp <= upperBoundPos)
+                    row = temp;
+                else  System.out.println("Row number must be in range of ["+
+                Integer.toString(lowerBoundPos)+","+Integer.toString(upperBoundPos)+"]");
+
+            } while(row == 0);
+            
+            do {
+                System.out.println("number of markers needed to win");
+
+                int temp = scanner.nextInt();
+
+                if (temp >= lowerBoundW && temp <= upperBoundW)
+                    winNeed = temp;
+                else  System.out.println("Value must be in range of ["+
+                Integer.toString(lowerBoundW)+","+Integer.toString(upperBoundW)+"]");
+
+            } while(winNeed == 0);
+
+            do {
+                System.out.println("number of players");
+
+                int temp = scanner.nextInt();
+
+                if (temp >= lowerBoundP && temp <= upperBoundP)
+                    playerCount = temp;
+                else  System.out.println("Value number must be in range of ["+
+                Integer.toString(lowerBoundP)+","+Integer.toString(upperBoundP)+"]");
+
+            } while(playerCount == 0);
+
+            char[] players = new char[playerCount];
+
+            for (int i = 0; playerCount > i; i++) {
+                System.out.println("Enter player " + Integer.toString(i) +"'s symbol");
+                char temp = Character.toUpperCase(scanner.next().charAt(0)); 
+                for (int j = 0; i > j; j++) {
+                    if (players[j] == temp) {
+                        System.out.println("player symbol " + players[j] +" has already been selected."
+                        +"\nPlease enter a unique symbol.");
+                    }
+                }
+                players[i]  = temp;
+            }
+
+            ////////////////////
+
+            GameBoard game = new GameBoard(col,row,winNeed);
             boolean winner = false;
 
             int turnsPlayed = 0;
-            while (!winner) {
+            while (!winner && !game.checkForDraw()) {
                 BoardPosition pos = new BoardPosition(0, 0);
                 boolean error = false;
                 do {
@@ -27,12 +106,12 @@ public class GameScreen {
                             + " please pick again");
                     }
                     // either a 1 or 0, matches player array
-                    System.out.println("Player " + player[turnsPlayed%2]
+                    System.out.println("Player " + players[turnsPlayed%playerCount]
                         + " Please enter your ROW");
 
                     int y = scanner.nextInt();
 
-                    System.out.println("Player " + player[turnsPlayed%2]
+                    System.out.println("Player " + players[turnsPlayed%playerCount]
                         + " Please enter your COLUMN");
 
                     int x = scanner.nextInt();
@@ -40,13 +119,13 @@ public class GameScreen {
                     error = true;
                 } while (!game.checkSpace(pos));
 
-                game.placeMarker(pos, player[turnsPlayed%2]);
+                game.placeMarker(pos, players[turnsPlayed%playerCount]);
                 System.out.println(game.toString());
                 winner = game.checkForWinner(pos);
                 turnsPlayed++;
             }
 
-            System.out.println("Player " + player[(turnsPlayed-1) % 2] + " wins!");
+            System.out.println("Player " + players[(turnsPlayed-1) % playerCount] + " wins!");
 
             char repeatInput;
             boolean error = false;

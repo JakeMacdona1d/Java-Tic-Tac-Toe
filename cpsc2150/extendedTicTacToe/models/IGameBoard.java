@@ -249,16 +249,24 @@ public interface IGameBoard {
 
             for (int j = 1; j <= getNumToWin(); j++) {
                 // k flips sign value, thus allows check in both directions
+                boolean lookNeg = true;
+                boolean lookPos = true;
                 for (int k = -1; k <= 1 ; k++) {
                     if (k == 0) continue;
+                    if (k > 0 && !lookNeg) continue;
+                    if (k < 0 && !lookPos) continue;
         
                     int curX = x + (j * growX * k);
-                    int curY = y + (j * growY *k);
+                    int curY = y + (j * growY * k);
 
                     if ((curX >= 0 && curX < getNumColumns()) 
                         && (curY >= 0 && curY < getNumRows()))
                         if (whatsAtPos(new BoardPosition(curY,curX)) == player)
                                 count++;
+                        else  {
+                            if (k > 0) lookPos = false;
+                            else lookNeg = false;
+                        }
                 }
                 if (count >= getNumToWin()) return true;
             }

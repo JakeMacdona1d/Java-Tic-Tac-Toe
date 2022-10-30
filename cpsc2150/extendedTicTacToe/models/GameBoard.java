@@ -11,16 +11,21 @@ package cpsc2150.extendedTicTacToe.models;
 
 // GameBoard extends AbsGameBoard which implements IGameBoard
 public class GameBoard extends AbsGameBoard implements IGameBoard{
-    private static final int rowNum = 5;
-    private static final int colNum = 8;
-    private static final int winNeed = 5;
-    private char[][] board = new char [colNum][rowNum];
+    private int rowNum;
+    private int colNum;
+    private int winNeed;
+    private char[][] board;
 
     /**
      * This constructor creates a gameboard defined in 2 dimensions of characters.
      * @post For all elements of board  = ' ' AND board = #board except [for all elements of board set to ' '] 
      */
-    public GameBoard() {
+    public GameBoard(int col, int row, int winNum) {
+        colNum = col;
+        rowNum = row;
+        winNeed = winNum;
+        board = new char[colNum][rowNum];
+
         for (int i = 0; i < colNum; i++)
             for (int j = 0; j < rowNum; j++) {
                 board[i][j] = ' ';
