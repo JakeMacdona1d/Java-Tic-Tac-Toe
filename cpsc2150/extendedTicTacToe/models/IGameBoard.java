@@ -1,5 +1,8 @@
 // Jake Macdonald 
 package cpsc2150.extendedTicTacToe.models;
+import java.lang.Math;
+import cpsc2150.extendedTicTacToe.GameScreen;
+
 
 /**
  * IGameBoard is an abstractly defined class that represents a 
@@ -236,16 +239,9 @@ public interface IGameBoard {
         // then has positive growth.
         for (int i = -1; i <= 1 ; i++) {
             if (i == 0) continue;
-
-            // variables exist for readibility
-            int growX = i, growY = i;
             
             // start with one to include self.
             int count = 1; 
-
-            // since board dimensions permits the longest adj as
-            // equivalent to the winNeed, no stopPos, or stopNeg
-            // is currently needed
 
             for (int j = 1; j <= getNumToWin(); j++) {
                 // k flips sign value, thus allows check in both directions
@@ -255,18 +251,20 @@ public interface IGameBoard {
                     if (k == 0) continue;
                     if (k > 0 && !lookNeg) continue;
                     if (k < 0 && !lookPos) continue;
-        
-                    int curX = x + (j * growX * k);
-                    int curY = y + (j * growY * k);
+
+                    int curX = (x + j * k);
+                    int curY = (y + j * i * k);
 
                     if ((curX >= 0 && curX < getNumColumns()) 
-                        && (curY >= 0 && curY < getNumRows()))
+                        && (curY >= 0 && curY < getNumRows())) {
                         if (whatsAtPos(new BoardPosition(curY,curX)) == player)
                                 count++;
                         else  {
                             if (k > 0) lookPos = false;
                             else lookNeg = false;
                         }
+
+                    }
                 }
                 if (count >= getNumToWin()) return true;
             }
@@ -281,25 +279,15 @@ public interface IGameBoard {
      *      [true if there exists no possible win condition for either team]
      */
     default public boolean checkForDraw() {
+        int spacenum = 0;
+
         for (int i = 0; getNumColumns() > i; i++)
             for (int j = 0; getNumRows() > j; j++) {
-                BoardPosition test = new BoardPosition(j,i);
-                if (whatsAtPos(test) != ' ') continue;
-
-                char player = 'X';
-                if (checkHorizontalWin(test, player) ||
-                checkVerticalWin(test, player) ||
-                checkDiagonalWin(test, player))
-                    return false;
-                
-                player = 'O';
-                if (checkHorizontalWin(test, player) ||
-                checkVerticalWin(test, player) ||
-                checkDiagonalWin(test, player))
-                    return false;
+                BoardPosition pos = new BoardPosition(j,i);
+                 char val = whatsAtPos(pos);
+                 if (val == ' ') spacenum++;
             }
-
-
+        if (spacenum > 0) return false;
         return true;
     }
 }

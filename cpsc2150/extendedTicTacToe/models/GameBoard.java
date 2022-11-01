@@ -65,8 +65,6 @@ public class GameBoard extends AbsGameBoard implements IGameBoard{
      * Asigns value of @{code player} to the board position of {@code marker}
      */
     public void placeMarker (BoardPosition marker, char player) {
-        if (checkSpace(marker)) {
-            board[marker.getColumn()][marker.getRow()] = player;
-        }
+        board[marker.getColumn()][marker.getRow()] = player;
     }
 }

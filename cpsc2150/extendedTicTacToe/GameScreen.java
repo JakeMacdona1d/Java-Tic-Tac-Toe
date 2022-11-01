@@ -6,11 +6,23 @@ import cpsc2150.extendedTicTacToe.models.GameBoard;
 
 public class GameScreen {
 
+    public static int lowerBoundPos = 3;
+    public static int upperBoundPos = 100;
+
+    public static int lowerBoundW = 3;
+    public static int upperBoundW = 25;
+
+    public static int lowerBoundP = 2;
+    public static int upperBoundP = 10;
+
     public static void main(String[] args) {
 
         // Creates an object that will read in data from the command line.
         Scanner scanner = new Scanner(System.in);
         boolean encore = true;
+
+        
+
 
         while (encore) { 
 
@@ -18,15 +30,6 @@ public class GameScreen {
             int row = 0;
             int winNeed = 0;
             int playerCount = 0;
-
-            int lowerBoundPos = 3;
-            int upperBoundPos = 100;
-
-            int lowerBoundW = 3;
-            int upperBoundW = 25;
-
-            int lowerBoundP = 2;
-            int upperBoundP = 10;
 
 
             do {
@@ -95,9 +98,11 @@ public class GameScreen {
 
             GameBoard game = new GameBoard(col,row,winNeed);
             boolean winner = false;
+            boolean draw = false;
+
 
             int turnsPlayed = 0;
-            while (!winner && !game.checkForDraw()) {
+           do {
                 BoardPosition pos = new BoardPosition(0, 0);
                 boolean error = false;
                 do {
@@ -122,10 +127,14 @@ public class GameScreen {
                 game.placeMarker(pos, players[turnsPlayed%playerCount]);
                 System.out.println(game.toString());
                 winner = game.checkForWinner(pos);
+                draw = game.checkForDraw();
                 turnsPlayed++;
-            }
+            } while (!winner && !draw);
+            if (winner)
+                System.out.println("Player " + players[(turnsPlayed-1) % playerCount] + " wins!");
+            else if (draw)
+                System.out.println("Draw game!");
 
-            System.out.println("Player " + players[(turnsPlayed-1) % playerCount] + " wins!");
 
             char repeatInput;
             boolean error = false;
