@@ -8,7 +8,7 @@ import java.util.*;
  * @invariant  0 <= colNum * rowNum) AND winNeed = #winNeed 
  *              And colNum = #colNum AND rowNum = #rowNum 
  * 
- * @correspondences self = board[0..MAX_ROW_NUM-1][0..MAX_COLUMN_NUM-1]
+ * @correspondences self = board[Unique Key that goes to arbitrary ArrayList of BoardPositions]
  */
 
 // GameBoard extends AbsGameBoard which implements IGameBoard
@@ -16,7 +16,7 @@ public class GameBoardMem extends AbsGameBoard implements IGameBoard{
     private int rowNum;
     private int colNum;
     private int winNeed;
-    private Map<Character, ArrayList<BoardPosition>> hm;
+    private Map<Character, ArrayList<BoardPosition>> board;
 
     /**
      * This constructor creates a gameboard defined in 2 dimensions of characters.
@@ -26,7 +26,7 @@ public class GameBoardMem extends AbsGameBoard implements IGameBoard{
         colNum = col;
         rowNum = row;
         winNeed = winNum;
-        hm = new HashMap<Character, ArrayList<BoardPosition>>();
+        board = new HashMap<Character, ArrayList<BoardPosition>>();
     }
 
     /*
@@ -54,13 +54,12 @@ public class GameBoardMem extends AbsGameBoard implements IGameBoard{
      * returns a two dimensional character array equal to board
      */
 
-    public char whatsAtPos (BoardPosition pos) {
-        
-        for (int i = 0; hm.size() > i; i++) {
-			char key = hm.keySet().toArray()[i].toString().charAt(0);
-			for (int j = 0; hm.get(key).size() > j; j++) {
-                if (hm.get(key).get(j).getRow() == pos.getRow() 
-                    && hm.get(key).get(j).getColumn() == pos.getColumn())
+    public char whatsAtPos (BoardPosition pos) {    
+        for (int i = 0; board.size() > i; i++) {
+			char key = board.keySet().toArray()[i].toString().charAt(0);
+			for (int j = 0; board.get(key).size() > j; j++) {
+                if (board.get(key).get(j).getRow() == pos.getRow() 
+                    && board.get(key).get(j).getColumn() == pos.getColumn())
                     return key;
 			}
 		}
@@ -68,11 +67,24 @@ public class GameBoardMem extends AbsGameBoard implements IGameBoard{
         return ' ';
      }
 
+     /**
+     * This method overrides the default implementation of isPlayerAtPos to provide 
+     * a more time efficient solution.
+     * 
+     * @return a boolean value indicating if given player exists at given BoardPosition
+    * @param pos represents a board position.
+    * @param player represents a player mark symbol.
+    * @pre lastPos must adhere to conditions of BoardPosition
+    *      AND player = 'X' OR player = 'O'
+    * @post self = #self AND isPlayerAtPos = 
+    * (board[pos.getColumn()][pos.getRow()] == player)
+    **/
+
      @Override
     public boolean isPlayerAtPos (BoardPosition pos, char player) {
-        for (int i = 0; hm.get(player).size() > i; i++) {
-            if (hm.get(player).get(i).getRow() == pos.getRow() 
-                && hm.get(player).get(i).getColumn() == pos.getColumn())
+        for (int i = 0; board.get(player).size() > i; i++) {
+            if (board.get(player).get(i).getRow() == pos.getRow() 
+                && board.get(player).get(i).getColumn() == pos.getColumn())
                 return true;
         }
         return false;
@@ -82,11 +94,9 @@ public class GameBoardMem extends AbsGameBoard implements IGameBoard{
      * Asigns value of @{code player} to the board position of {@code marker}
      */
     public void placeMarker (BoardPosition marker, char player) {
-        if (Objects.isNull(hm.get(player))) {
-            hm.put(player, new ArrayList<BoardPosition>());
+        if (Objects.isNull(board.get(player))) {
+            board.put(player, new ArrayList<BoardPosition>());
         }
-
-
-		hm.get(player).add(new BoardPosition(marker.getRow(),marker.getColumn()));
+		board.get(player).add(new BoardPosition(marker.getRow(),marker.getColumn()));
     }
 }

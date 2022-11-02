@@ -9,7 +9,7 @@ clean:
 	rm -f ${PACKAGE}/models/*.class
 zip:
 	rm project.zip
-	zip project.zip -r cpsc2150 makefile report.pdf
+	zip project.zip -r cpsc2150/extendedTicTacToe/models cpsc2150/extendedTicTacToe/GameScreen.java makefile report.pdf
 
 test: default ${PACKAGE}/test/Testing.java
 	javac -cp .:/usr/share/java/junit4.jar ${PACKAGE}/test/Testing.java 
