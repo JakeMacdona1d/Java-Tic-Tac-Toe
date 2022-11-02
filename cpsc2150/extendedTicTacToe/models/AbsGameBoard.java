@@ -14,14 +14,14 @@ public abstract class AbsGameBoard implements IGameBoard {
      * @return a string representation of the GameBoard
      * 
      * @post toString = "
-     *    0|1|2|3|4|5|6|7| 
-        0| | | | | | | | |
-        1| | | | | | | | |
-        2| | | | | | | | |
-        3| | | | | | | | |
-        4| | | | | | | | |
-        where ' ' = 'X' OR ' ' = 'O'
-        OR ' ' = ' '
+     *     0| 1| 2| 3| 4| 5| 6| 7| 
+        0|  |  |  |  |  |  |  |  |
+        1|  |  |  |  |  |  |  |  |
+        2|  |  |  |  |  |  |  |  |
+        3|  |  |  |  |  |  |  |  |
+        4|  |  |  |  |  |  |  |  |
+        where '  ' = 'X' OR '  ' = 'O'
+        OR '  ' = '  '
         AND getNumColumns() = #getNumColumns() AND getNumRows() = #getNumRows() 
         AND getBoard() = #getBoard()
     */
@@ -38,15 +38,18 @@ public abstract class AbsGameBoard implements IGameBoard {
            }
         
        for (int i = 0; i < boardWidth; i++) {
-            boardScheme += Integer.toString(i) + "|";
+            boardScheme += " " + Integer.toString(i) + "|";
        }
        boardScheme += "\n";
 
         for (int i = 0; i < boardHeight; i++) {
             boardScheme += Integer.toString(i);
             boardScheme += "|";
+
             for (int j = 0; j < boardWidth; j++) {
+
                 boardScheme += board[j][i];
+                boardScheme += " ";
                 boardScheme += "|";
             }
             boardScheme += "\n";
