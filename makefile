@@ -19,4 +19,8 @@ testRun: ${PACKAGE}/test/Testing.class ${PACKAGE}/models/*.class ${PACKAGE}/*.cl
 
 testing: default test testRun
 
+fun: Map_Demo.java
+	javac Map_Demo.java
+	java Map_Demo
+
 

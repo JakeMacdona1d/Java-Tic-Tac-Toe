@@ -61,10 +61,14 @@ public class GameScreen {
 
                 int temp = scanner.nextInt();
 
-                if (temp >= lowerBoundW && temp <= upperBoundW)
+                int low = (col >= row) ? (col) : (row);
+                System.out.println(Integer.toString(low));
+
+                if (temp >= lowerBoundP && temp <= upperBoundW && temp <= low)
                     winNeed = temp;
                 else  System.out.println("Value must be in range of ["+
-                Integer.toString(lowerBoundW)+","+Integer.toString(upperBoundW)+"]");
+                Integer.toString(lowerBoundW)+","+Integer.toString(upperBoundW)+"]" +
+                " and fit the board");
 
             } while(winNeed == 0);
 
