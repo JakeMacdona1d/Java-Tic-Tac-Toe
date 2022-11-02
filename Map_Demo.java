@@ -14,14 +14,38 @@ public class Map_Demo {
 
 		ArrayList<int[]> arrli = new ArrayList<int[]>(n);
 
-		for (int i = 1; i <= n; i++) {
-			int temp[] = new int[2];
-			temp[0] = i;
-			temp[1] = i;
-
-            arrli.add(temp);
+		for (int i = 0; n > i; i++) {
+			int arr[] = new int[2];
+			arr[0] = i; arr[1] = i;
+			arrli.add(arr);
 		}
-		
+		hm.put('X', arrli);
+
+		int thot[] = new int[2];
+		thot[0] = 69; thot[1] = 420;
+
+		hm.get('X').add(thot);
+
+		hm.size();
+
+		char x = hm.keySet().toArray()[0].toString().charAt(0);
+		System.out.println((hm.keySet().toArray()[0]));
+
+		System.out.println(x);
+
+
+		for (int j = 0; hm.size() > j; j++) {
+			char key = hm.keySet().toArray()[j].toString().charAt(0);
+			hm.get(key);
+			for (int i = 0; hm.get(key).size() > i; i++) {
+				int posx = hm.get(key).get(i)[0];
+				int posy = hm.get(key).get(i)[1];
+
+				System.out.println(Integer.toString(posx) + ","
+				 + Integer.toString(posy));
+			}
+		}
+
 		for (int i = 0; i < arrli.size(); i++)
             System.out.print(Integer.toString(arrli.get(i)[0]) + " ");
 

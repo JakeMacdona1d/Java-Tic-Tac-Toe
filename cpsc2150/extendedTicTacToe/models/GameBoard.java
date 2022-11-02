@@ -3,7 +3,7 @@ package cpsc2150.extendedTicTacToe.models;
 
 /**
  * class operating akin to qualities of a tic-tac-toe gameboard
- * @invariant  0 <= turnsplayed <= (colNum * rowNum) AND winNeed = #winNeed 
+ * @invariant  0 <= (colNum * rowNum) AND winNeed = #winNeed 
  *              And colNum = #colNum AND rowNum = #rowNum 
  * 
  * @correspondences self = board[0..MAX_ROW_NUM-1][0..MAX_COLUMN_NUM-1]

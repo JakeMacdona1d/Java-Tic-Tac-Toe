@@ -5,7 +5,7 @@ import java.util.*;
 
 /**
  * class operating akin to qualities of a tic-tac-toe gameboard
- * @invariant  0 <= turnsplayed <= (colNum * rowNum) AND winNeed = #winNeed 
+ * @invariant  0 <= colNum * rowNum) AND winNeed = #winNeed 
  *              And colNum = #colNum AND rowNum = #rowNum 
  * 
  * @correspondences self = board[0..MAX_ROW_NUM-1][0..MAX_COLUMN_NUM-1]
@@ -16,7 +16,7 @@ public class GameBoardMem extends AbsGameBoard implements IGameBoard{
     private int rowNum;
     private int colNum;
     private int winNeed;
-    private Map<Character, ArrayList<int[]>> hm;
+    private Map<Character, ArrayList<BoardPosition>> hm;
 
     /**
      * This constructor creates a gameboard defined in 2 dimensions of characters.
@@ -26,7 +26,7 @@ public class GameBoardMem extends AbsGameBoard implements IGameBoard{
         colNum = col;
         rowNum = row;
         winNeed = winNum;
-        hm = new HashMap<Character, ArrayList<int[]>>();
+        hm = new HashMap<Character, ArrayList<BoardPosition>>();
     }
 
     /*
@@ -55,18 +55,38 @@ public class GameBoardMem extends AbsGameBoard implements IGameBoard{
      */
 
     public char whatsAtPos (BoardPosition pos) {
-        for (int i = 0; hm.size > i; i++) 
-            for (int j = 0; hm.get(hm.keySet()[i]) > j; j++) {
+        
+        for (int i = 0; hm.size() > i; i++) {
+			char key = hm.keySet().toArray()[i].toString().charAt(0);
+			for (int j = 0; hm.get(key).size() > j; j++) {
+                if (hm.get(key).get(j).getRow() == pos.getRow() 
+                    && hm.get(key).get(j).getColumn() == pos.getColumn())
+                    return key;
+			}
+		}
 
-            } 
-
-        return "X";
+        return ' ';
      }
+
+     @Override
+    public boolean isPlayerAtPos (BoardPosition pos, char player) {
+        for (int i = 0; hm.get(player).size() > i; i++) {
+            if (hm.get(player).get(i).getRow() == pos.getRow() 
+                && hm.get(player).get(i).getColumn() == pos.getColumn())
+                return true;
+        }
+        return false;
+    }
 
     /*
      * Asigns value of @{code player} to the board position of {@code marker}
      */
     public void placeMarker (BoardPosition marker, char player) {
-        // board[marker.getColumn()][marker.getRow()] = player;
+        if (Objects.isNull(hm.get(player))) {
+            hm.put(player, new ArrayList<BoardPosition>());
+        }
+
+
+		hm.get(player).add(new BoardPosition(marker.getRow(),marker.getColumn()));
     }
 }

@@ -3,7 +3,6 @@ package cpsc2150.extendedTicTacToe.models;
 import java.lang.Math;
 import cpsc2150.extendedTicTacToe.GameScreen;
 
-
 /**
  * IGameBoard is an abstractly defined class that represents a 
  * tic-tac-toe gameboard 
@@ -13,7 +12,7 @@ import cpsc2150.extendedTicTacToe.GameScreen;
  *  of the GameBoard initiates with a value of ' '. Additionally, 
  * the gameboard is a 5X8
  * 
- * Defines: Turns: Z AND NumRows: AND NumColumns: Z AND NumToWin: Z
+ * Defines: NumRows : Z AND NumColumns: Z AND NumToWin: Z
  * 
  * Constraints: 0 <= Turns <= (NumRows * NumColumns) AND NumToWin = #NumToWin
  *  AND NumColumns = #NumColumns AND NumRows = #NumRows
@@ -28,15 +27,6 @@ public interface IGameBoard {
       */
       public char whatsAtPos (BoardPosition pos); 
 
-    // /**
-    //  * getTurnsPlayed provides value of Turns
-    //  * 
-    //  *@return integer count of Turns.
-
-    //  * @post self = #self AND getTurnsPlayed() = Turns AND Turns = #Turns
-    //  */
-
-    // public int getTurnsPlayed();
       
     /**
      * provides value of NumRows 
@@ -72,9 +62,9 @@ public interface IGameBoard {
       * 
       * @pre [Marker must adhere to conditions of BoardPosition]
       *       AND [the marker space must not already be occupied
-      *      (marker = 'X' OR marker = 'O')] AND Turns < (getNumColumns() * getNumRows())
+      *      (marker = 'X' OR marker = 'O')]
 
-      * @post Turns = #Turns + 1 AND self = #self, except @{code marker} will be 
+      * @post self = #self, except @{code marker} will be 
         assigned value of @{code player} AND place  
       */
  
@@ -97,10 +87,7 @@ public interface IGameBoard {
                  return true;
          return false;
      }
- 
- 
- 
- 
+  
      /**
       * This function determines if the given board position has been
       * marked with a player symbol.

@@ -3,6 +3,9 @@ package cpsc2150.extendedTicTacToe;
 import java.util.*;
 import cpsc2150.extendedTicTacToe.models.BoardPosition;
 import cpsc2150.extendedTicTacToe.models.GameBoard;
+import cpsc2150.extendedTicTacToe.models.GameBoardMem;
+import cpsc2150.extendedTicTacToe.models.IGameBoard;
+
 
 public class GameScreen {
 
@@ -20,9 +23,6 @@ public class GameScreen {
         // Creates an object that will read in data from the command line.
         Scanner scanner = new Scanner(System.in);
         boolean encore = true;
-
-        
-
 
         while (encore) { 
 
@@ -62,7 +62,6 @@ public class GameScreen {
                 int temp = scanner.nextInt();
 
                 int low = (col >= row) ? (col) : (row);
-                System.out.println(Integer.toString(low));
 
                 if (temp >= lowerBoundP && temp <= upperBoundW && temp <= low)
                     winNeed = temp;
@@ -100,7 +99,7 @@ public class GameScreen {
 
             ////////////////////
 
-            GameBoard game = new GameBoard(col,row,winNeed);
+            IGameBoard game = new GameBoardMem(col,row,winNeed);
             boolean winner = false;
             boolean draw = false;
 
