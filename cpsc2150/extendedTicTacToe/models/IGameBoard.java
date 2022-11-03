@@ -1,7 +1,6 @@
 // Jake Macdonald 
 package cpsc2150.extendedTicTacToe.models;
 import java.lang.Math;
-import cpsc2150.extendedTicTacToe.GameScreen;
 
 /**
  * IGameBoard is an abstractly defined class that represents a 
