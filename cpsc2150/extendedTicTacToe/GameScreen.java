@@ -108,7 +108,7 @@ public class GameScreen {
 
                 if (temp >= lowerBoundP && temp <= upperBoundW && temp <= low)
                     winNeed = temp;
-                else  System.out.println("Value must be in range of ["+
+                else System.out.println("Value must be in range of ["+
                 Integer.toString(lowerBoundW)+","+Integer.toString(upperBoundW)+"]" +
                 " and fit the board");
 

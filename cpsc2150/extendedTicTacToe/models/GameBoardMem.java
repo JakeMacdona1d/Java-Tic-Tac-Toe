@@ -2,13 +2,12 @@
 package cpsc2150.extendedTicTacToe.models;
 import java.util.*;
 
-
 /**
  * class operating akin to qualities of a tic-tac-toe gameboard
  * @invariant  0 <= colNum * rowNum) AND winNeed = #winNeed 
  *              And colNum = #colNum AND rowNum = #rowNum 
  * 
- * @correspondences self = board[Unique Key that goes to arbitrary ArrayList of BoardPositions]
+ * @correspondences self = board[Unique Keys linked to a corresponding ArrayList of BoardPositions]
  */
 
 // GameBoard extends AbsGameBoard which implements IGameBoard

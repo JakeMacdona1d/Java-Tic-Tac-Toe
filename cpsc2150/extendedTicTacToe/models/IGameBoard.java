@@ -1,6 +1,5 @@
 // Jake Macdonald 
 package cpsc2150.extendedTicTacToe.models;
-import java.lang.Math;
 
 /**
  * IGameBoard is an abstractly defined class that represents a 
@@ -9,7 +8,8 @@ import java.lang.Math;
  * Initialization ensures: GameBoard is able to represent 
  * a table of two dimensions containing characters. Each element 
  *  of the GameBoard initiates with a value of ' '. Additionally, 
- * the gameboard is a 5X8
+ * the gameboard is of dimensions A X B, such that A and B are elements
+ * of ALL integers in the range [3, 100]. 
  * 
  * Defines: NumRows : Z AND NumColumns: Z AND NumToWin: Z
  * 
@@ -61,10 +61,10 @@ public interface IGameBoard {
       * 
       * @pre [Marker must adhere to conditions of BoardPosition]
       *       AND [the marker space must not already be occupied
-      *      (marker = 'X' OR marker = 'O')]
+      *      (marker equals any capitalized alphabetical character)]
 
       * @post self = #self, except @{code marker} will be 
-        assigned value of @{code player} AND place  
+        assigned value of @{code player}  
       */
  
       public void placeMarker (BoardPosition marker, char player);
@@ -80,6 +80,13 @@ public interface IGameBoard {
       *  (board[pos.getColumn()][pos.getRow()] == ' '))
       */
      default public boolean checkSpace (BoardPosition pos) {
+        // I lost points on project II for "checking if precondition is true."
+        // However, in the project 1 report, the checkSpace function is given the
+        //description :
+        //returns true if the position specified in pos is available;
+        //false otherwise. If a space is not in bounds, then it is not available
+
+        // Thus the following statements are correct.
         if ((pos.getColumn() < getNumColumns() && pos.getColumn() >= 0)
              && (pos.getRow() < getNumRows() && pos.getRow() >= 0))
              if ((whatsAtPos(pos) == ' '))
@@ -94,7 +101,7 @@ public interface IGameBoard {
       * @param pos represents a board position.
       * @param player represents a player mark symbol.
       * @pre lastPos must adhere to conditions of BoardPosition
-      *      AND player = 'X' OR player = 'O'
+      *      AND player = [Any capitalized alphabetical character]
       * @post self = #self AND isPlayerAtPos = 
       * (board[pos.getColumn()][pos.getRow()] == player)
       */
@@ -229,14 +236,16 @@ public interface IGameBoard {
             // start with one to include self.
             int count = 1; 
 
+            boolean lookNeg = true;
+                boolean lookPos = true;
+
             for (int j = 1; j <= getNumToWin(); j++) {
                 // k flips sign value, thus allows check in both directions
-                boolean lookNeg = true;
-                boolean lookPos = true;
+                
                 for (int k = -1; k <= 1 ; k++) {
                     if (k == 0) continue;
-                    if (k > 0 && !lookNeg) continue;
-                    if (k < 0 && !lookPos) continue;
+                    if (k > 0 && !lookPos) continue;
+                    if (k < 0 && !lookNeg) continue;
 
                     int curX = (x + j * k);
                     int curY = (y + j * i * k);
@@ -262,18 +271,13 @@ public interface IGameBoard {
      * This function determines if all board possible board placements are occupied.
      *@return a boolean indicating occurence of draw. 
      * @post self = #self AND checkForDraw =
-     *      [true if there exists no possible win condition for either team]
+     *      [true if all board elements do not equal (' ')]
      */
     default public boolean checkForDraw() {
-        int spacenum = 0;
-
         for (int i = 0; getNumColumns() > i; i++)
             for (int j = 0; getNumRows() > j; j++) {
-                BoardPosition pos = new BoardPosition(j,i);
-                 char val = whatsAtPos(pos);
-                 if (val == ' ') spacenum++;
+                 if (whatsAtPos(new BoardPosition(j,i)) == ' ') return false;
             }
-        if (spacenum > 0) return false;
-        return true;
+      return true;
     }
 }
