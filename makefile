@@ -7,6 +7,8 @@ run: ${PACKAGE}/*.class
 clean:
 	rm -f ${PACKAGE}/GameScreen.class
 	rm -f ${PACKAGE}/models/*.class
+	rm -f ${PACKAGE}/test/*.class
+
 zip:
 	rm project.zip
 	zip project.zip -r cpsc2150/extendedTicTacToe/models cpsc2150/extendedTicTacToe/GameScreen.java makefile report.pdf

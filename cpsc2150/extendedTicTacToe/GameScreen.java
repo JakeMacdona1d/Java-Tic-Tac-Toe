@@ -19,6 +19,115 @@ public class GameScreen {
     public static int lowerBoundP = 2;
     public static int upperBoundP = 10;
 
+    private static int setPlayerCount(Scanner scanner) {
+        int playerCount = 0;
+        while(playerCount == 0) {
+            System.out.println("How many players?");
+
+            int temp = scanner.nextInt();
+
+            if (temp >= lowerBoundP && temp <= upperBoundP)
+                playerCount = temp;
+            else {
+                if (temp > upperBoundP)
+                    System.out.println("Must be 10 players or fewer");
+                else
+                    System.out.println("Must be at least 2 players");
+
+            }  
+        }
+        return playerCount;
+    }
+
+    private static char[] setPlayers(Scanner scanner, int playerCount) {
+        char[] players = new char[playerCount];
+        for (int i = 0; playerCount > i; i++) {
+            char temp;
+            while (true) {
+                boolean setVal = true;
+                System.out.println("Enter the character to represent player " + Integer.toString(i + 1));
+                temp = Character.toUpperCase(scanner.next().charAt(0)); 
+                for (int j = 0; i > j; j++) {
+                    if (players[j] == temp) {
+                        System.out.println(players[j] +" is already taken as a player token!");
+                        setVal = false;
+                        break;
+                    }
+                }
+                if (setVal) break;
+            }
+            players[i]  = temp;
+        }
+        return players;
+    }
+
+    private static int setRow(Scanner scanner) {
+        int row = 0;
+        while(row == 0) {
+            System.out.println("How many rows?");
+
+            int temp = scanner.nextInt();
+
+            if (temp >= lowerBoundPos && temp <= upperBoundPos)
+                row = temp;
+            else  System.out.println("Rows must be between " +
+            Integer.toString(lowerBoundPos)+" and "+Integer.toString(upperBoundPos));
+
+        }
+
+        return row;
+    }
+    
+    private static int setColumn(Scanner scanner) {
+        int col = 0;
+        while(col == 0) {
+            System.out.println("How many columns?");
+
+            int temp = scanner.nextInt();
+
+            if (temp >= lowerBoundPos && temp <= upperBoundPos)
+                col = temp;
+            else  System.out.println("Columns must be between " +
+            Integer.toString(lowerBoundPos)+" and "+Integer.toString(upperBoundPos));
+
+        } 
+        return col;
+    }
+
+    private static int setWinNeed(Scanner scanner, int row, int col) {
+        int winNeed = 0;
+        while(winNeed == 0) {
+            System.out.println("How many in a row to win?");
+
+            int temp = scanner.nextInt();
+
+            int low = (col >= row) ? (col) : (row);
+            System.out.println(Integer.toString(low));
+
+            if (temp >= lowerBoundP && temp <= upperBoundW && temp <= low)
+                winNeed = temp;
+            else System.out.println("Value must be in range of ["+
+            Integer.toString(lowerBoundW)+","+Integer.toString(upperBoundW)+"]" +
+            " and fit the board");
+
+        } 
+
+        return winNeed;
+    }
+
+    private static char setGameType (Scanner scanner) {
+        char gameType = 0;
+
+        while (gameType == 0) {
+            System.out.println("Would you like a Fast Game (F/f) or a Memory Efficient Game (M/m?");
+
+            char temp = Character.toUpperCase(scanner.next().charAt(0));
+
+            if (temp == 'F' || temp == 'M')
+                gameType = temp; 
+        }
+        return gameType;
+    }
     public static void main(String[] args) {
 
         // Creates an object that will read in data from the command line.
@@ -26,102 +135,13 @@ public class GameScreen {
         boolean encore = true;
 
 
-
         while (encore) { 
-
-            int col = 0;
-            int row = 0;
-            int winNeed = 0;
-            int playerCount = 0;
-
-            char gameType = 0;
-
-            do {
-                System.out.println("How many players?");
-
-                int temp = scanner.nextInt();
-
-                if (temp >= lowerBoundP && temp <= upperBoundP)
-                    playerCount = temp;
-                else {
-                    if ((temp > upperBoundP))
-                        System.out.println("Must be 10 players or fewer");
-                    else
-                        System.out.println("Must be at least 2 players");
-
-                }  
-            } while(playerCount == 0);
-
-            char[] players = new char[playerCount];
-
-            for (int i = 0; playerCount > i; i++) {
-                char temp;
-                while (true) {
-                    boolean setVal = true;
-                    System.out.println("Enter the character to represent player " + Integer.toString(i + 1));
-                    temp = Character.toUpperCase(scanner.next().charAt(0)); 
-                    for (int j = 0; i > j; j++) {
-                        if (players[j] == temp) {
-                            System.out.println(players[j] +" is already taken as a player token!");
-                            setVal = false;
-                            break;
-                        }
-                    }
-                    if (setVal) break;
-                }
-                players[i]  = temp;
-            }
-
-            do {
-                System.out.println("How many rows?");
-
-                int temp = scanner.nextInt();
-
-                if (temp >= lowerBoundPos && temp <= upperBoundPos)
-                    row = temp;
-                else  System.out.println("Rows must be between " +
-                Integer.toString(lowerBoundPos)+" and "+Integer.toString(upperBoundPos));
-
-            } while(row == 0);
-
-
-            do {
-                System.out.println("How many columns?");
-
-                int temp = scanner.nextInt();
-
-                if (temp >= lowerBoundPos && temp <= upperBoundPos)
-                    col = temp;
-                else  System.out.println("Columns must be between " +
-                Integer.toString(lowerBoundPos)+" and "+Integer.toString(upperBoundPos));
-
-            } while(col == 0);
-
-            
-            do {
-                System.out.println("How many in a row to win?");
-
-                int temp = scanner.nextInt();
-
-                int low = (col >= row) ? (col) : (row);
-                System.out.println(Integer.toString(low));
-
-                if (temp >= lowerBoundP && temp <= upperBoundW && temp <= low)
-                    winNeed = temp;
-                else System.out.println("Value must be in range of ["+
-                Integer.toString(lowerBoundW)+","+Integer.toString(upperBoundW)+"]" +
-                " and fit the board");
-
-            } while(winNeed == 0);
-
-            while (gameType == 0) {
-                System.out.println("Would you like a Fast Game (F/f) or a Memory Efficient Game (M/m?");
-
-                char temp = Character.toUpperCase(scanner.next().charAt(0));
-
-                if (temp == 'F' || temp == 'M')
-                    gameType = temp; 
-            }
+            int playerCount = setPlayerCount(scanner);
+            char[] players = setPlayers(scanner, playerCount);
+            int row = setRow(scanner);
+            int col = setColumn(scanner);
+            int winNeed = setWinNeed(scanner, row, col);
+            char gameType = setGameType(scanner);
 
 
             ////////////////////
