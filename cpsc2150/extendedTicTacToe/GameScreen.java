@@ -33,7 +33,6 @@ public class GameScreen {
                     System.out.println("Must be 10 players or fewer");
                 else
                     System.out.println("Must be at least 2 players");
-
             }  
         }
         return playerCount;

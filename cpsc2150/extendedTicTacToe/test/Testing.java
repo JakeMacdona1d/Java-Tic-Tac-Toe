@@ -19,6 +19,10 @@ public class Testing{
         return new GameBoard(sizex, sizey, win);
     }
 
+    private IGameBoard gameB(int x, int y, int z) {	
+        return new GameBoard(x, y, z);
+    }
+
     enum Implentation {FAST,MEM};
     Implentation type = Implentation.FAST;
    
@@ -29,7 +33,7 @@ public class Testing{
 
 //checkSpace
 
-    //Testing if inside the bounds in empty space
+    //Testing if inside the bounds in filled space
     @Test 
     public void checkSpace1() {
         IGameBoard game = gameB();
@@ -39,7 +43,7 @@ public class Testing{
         game.placeMarker(pos, 'X');
 
 
-        System.out.println('\n'+game.toString()+'\n' + '\n');
+        // System.out.println('\n'+game.toString()+'\n' + '\n');
 
         assert(game.checkSpace(pos));
     }
@@ -59,7 +63,6 @@ public class Testing{
     public void checkSpace3() {
         IGameBoard game = gameB();
 
-
         BoardPosition pos = new BoardPosition(sizex,sizey);        
 
         assert(game.checkSpace(pos));
@@ -76,12 +79,12 @@ public class Testing{
 
         BoardPosition pos = new BoardPosition(0,0);        
 
-        for (int i = 0; win > i; i++ ) {
+        for (int i = 0;game.getNumToWin() > i; i++ ) {
             pos = new BoardPosition(4, i + 4);
             game.placeMarker(pos, 'X');
         }
        
-        System.out.println('\n'+game.toString());
+        // System.out.println('\n'+game.toString());
 
         assertTrue(game.checkForWinner(pos));
     }
@@ -97,17 +100,19 @@ public class Testing{
         
         int randValForRow = 4;
 
-        for (int i = 0; win > i; i++ ) {
-            pos = new BoardPosition(randValForRow, sizex - i);
+        for (int i = 0;game.getNumToWin() > i; i++ ) {
+            pos = new BoardPosition(randValForRow, sizex - i - 1);
             game.placeMarker(pos, 'X');
         }
        
-        System.out.println('\n'+game.toString());
+        // System.out.println('\n'+game.toString());
 
         assertTrue(game.checkForWinner(pos));
     }
 
-    // Testing if places 2 Xs and then a O then 3 X
+    // Testing if places 2 Xs and then a O then 3 X.
+    //Tests to see if row counting continues after non-target element
+    // is found.
     @Test
     public void horizontalCheck3() {
 
@@ -116,236 +121,331 @@ public class Testing{
 
         BoardPosition pos = new BoardPosition(0,0);        
 
-        for (int i = 0; win > i; i++ ) {
-            pos = new BoardPosition(randValForRow, sizex - i);
-            if (i == win - 2) {
+        for (int i = 0;game.getNumToWin() +1 > i; i++ ) {
+            pos = new BoardPosition(randValForRow, sizex - i -1);
+            if (i ==game.getNumToWin() - 3) {
+                game.placeMarker(pos, 'O');
+            } else {
+                if (i == game.getNumToWin() - 3) continue;
+                game.placeMarker(pos, 'X');
+            }
+        }
+        
+        // pos = new BoardPosition(randValForRow, sizex - (game.getNumToWin() - 2) -1);
+
+        // System.out.println('\n'+game.toString());
+
+        assert(game.checkForWinner(pos));
+    }
+
+    //Tests horizontalgame.getNumToWin() on smallest board withgame.getNumToWin()Need = width = height = 3 
+    @Test
+    public void horizontalCheck4() {
+
+        IGameBoard game = gameB(3,3,3);
+        int randValForRow = 1;
+
+        BoardPosition pos = new BoardPosition(0,0);        
+
+        for (int i = 0; game.getNumToWin() > i; i++ ) {
+
+            pos = new BoardPosition(randValForRow, i);
+            game.placeMarker(pos, 'X');
+        }
+       
+        // System.out.println('\n'+game.toString());
+
+        assert(game.checkForWinner(pos));
+    }
+ 
+//checkVerticalWin
+
+    // Tests when placing markers in ascending order. Board is set to standard. 
+    @Test
+    public void verticalCheck1() {
+
+        IGameBoard game = gameB();
+
+        BoardPosition pos = new BoardPosition(0,0);        
+
+        for (int i = 0;game.getNumToWin() > i; i++ ) {
+            pos = new BoardPosition(i, 3);
+            game.placeMarker(pos, 'X');
+        }
+       
+        // System.out.println('\n'+game.toString());
+
+        assertTrue(game.checkForWinner(pos));
+    }
+
+    // Tests when placing markers in descending order. Board is set to standard. 
+    @Test
+    public void verticalCheck2() {
+
+        IGameBoard game = gameB();
+
+        BoardPosition pos = new BoardPosition(0,0);        
+
+        for (int i = 0;game.getNumToWin() > i; i++ ) {
+            pos = new BoardPosition((game.getNumRows()/2)-i, 3);
+            game.placeMarker(pos, 'X');
+        }
+       
+        // System.out.println('\n'+game.toString());
+
+        assertTrue(game.checkForWinner(pos));
+    }
+
+    //Places 2 Xs and then a O then 3 X.
+    //Tests to see if row counting continues after non-target element
+    // is found.
+    @Test
+    public void verticalCheck3() {
+
+        IGameBoard game = gameB();
+        int randValForRow = 4;
+
+        BoardPosition pos = new BoardPosition(0,0);        
+
+        for (int i = 0;game.getNumToWin() + 1 > i; i++ ) {
+            pos = new BoardPosition(game.getNumRows() - i -1, game.getNumColumns()/2);
+            if (i ==game.getNumToWin() - 2) {
                 game.placeMarker(pos, 'O');
             } else {
                 game.placeMarker(pos, 'X');
             }
         }
        
-        System.out.println('\n'+game.toString());
-
-        assertTrue(game.checkForWinner(pos));
-    }
- 
-    //checkVerticalWin
-
-    @Test
-    public void verticalCheck1() {
-
-        IGameBoard game = gameB();
-
-
-        BoardPosition pos = new BoardPosition(0,0);        
-
-        for (int i = 0; win > i; i++ ) {
-            pos = new BoardPosition(i, 3);
-            game.placeMarker(pos, 'X');
-        }
-       
-        System.out.println('\n'+game.toString());
-
-        assertTrue(game.checkForWinner(pos));
-    }
-
-    @Test
-    public void verticalCheck2() {
-
-        IGameBoard game = gameB();
-
-
-        BoardPosition pos = new BoardPosition(0,0);        
-
-        for (int i = 0; win > i; i++ ) {
-            pos = new BoardPosition(20-i, 3);
-            game.placeMarker(pos, 'X');
-        }
-       
-        System.out.println('\n'+game.toString());
-
-        assertTrue(game.checkForWinner(pos));
-    }
-
-    //checkDiagonalWin
-
-    @Test
-    public void diagonalWinCheckNESW1() {
-
-        IGameBoard game = gameB();
-
-
-        BoardPosition pos = new BoardPosition(0,0);        
-
-        for (int i = 0; win > i; i++ ) {
-            pos = new BoardPosition((sizey-10)-i,i+4);
-            game.placeMarker(pos, 'X');
-        }
-       
-        System.out.println('\n'+game.toString());
-
-        assertTrue(game.checkForWinner(pos));
-    }
-
-    @Test
-    public void diagonalWinCheckNESW1FlipDir() {
-
-        IGameBoard game = gameB();
-
-
-        BoardPosition pos = new BoardPosition(0,0);        
-
-        for (int i = 0; win > i; i++ ) {
-            pos = new BoardPosition(i +4, 7 - i);
-            game.placeMarker(pos, 'X');
-        }
-       
-        System.out.println('\n'+game.toString());
-
-        assertTrue(game.checkForWinner(pos));
-    }
-
-
-    @Test
-    public void diagonalWinCheckNESW2() {
-
-        IGameBoard game = gameB();
-
-        BoardPosition pos = new BoardPosition(0,0);        
-
-        for (int i = 0; win > i; i++ ) {
-            pos = new BoardPosition((sizey-10)-i,i);
-            if (i == 2) {
-                game.placeMarker(pos, 'O');
-                BoardPosition newPos = new BoardPosition((sizey-10)-win,win);   
-                game.placeMarker(newPos, 'X');
-     
-
-
-            }
-            else game.placeMarker(pos, 'X');
-        }
-        System.out.println("thot");
-
-        System.out.println('\n'+game.toString());
+        // System.out.println('\n'+game.toString());
 
         assert(game.checkForWinner(pos));
     }
 
 
-    //checkForDraw
-
-    //isPlayerAtPos
-
-    //placeMarker
-
-  
-    // public void diagonalWinCheckNESW2() {
-
-    //     IGameBoard game = new GameBoard(0,0,0);
-    //     if (type == Implentation.FAST)
-    //         game = new GameBoard(sizex,sizey,win);
-    //     if (type == Implentation.MEM)
-    //         game = new GameBoardMem(sizex,sizey,win);
-
-    //     Random rand = new Random();
-
-    //         // Obtain a number between [0 - 49].
-    //     int max = ((game.getNumColumns >= game.getNumRows) ? (game.getNumColumns) : (game.getNumRows) - win);
-    //     int n = rand.nextInt(50);
-
-    //     int start = rand.nextInt(max);
-
-    //     BoardPosition pos = new BoardPosition(0,0);        
-
-    //     for (int i = 0; win > i; i++ ) {
-    //         pos = new BoardPosition((sizey-10)-i,i);
-    //         game.placeMarker(pos, 'X');
-    //     }
-       
-    //     System.out.println('\n'+game.toString());
-
-    //     assertTrue(game.checkForWinner(pos));
-    // }
-
+    //Tests horizontalgame.getNumToWin() on smallest board withgame.getNumToWin()Need = width = height = 3 
     @Test
-    public void diagonalWinCheckSENW() {
-        IGameBoard game = new GameBoard(0,0,0);
-        if (type == Implentation.FAST)
-            game = new GameBoard(sizex,sizey,win);
-        if (type == Implentation.MEM)
-            game = new GameBoardMem(sizex,sizey,win);
+    public void verticalCheck4() {
 
+        IGameBoard game = gameB(3,3,3);
+        int randValForRow = 1;
         BoardPosition pos = new BoardPosition(0,0);        
 
-        for (int i = 0; win > i; i++ ) {
-            pos = new BoardPosition(i, i);
+        for (int i = 0; game.getNumToWin() > i; i++ ) {
+            pos = new BoardPosition(i, 1);
             game.placeMarker(pos, 'X');
         }
        
-        System.out.println('\n'+game.toString());
+        // System.out.println('\n'+game.toString());
+
+        assert(game.checkForWinner(pos));
+    }
+
+// checkDiagonalWin
+    @Test
+    public void diagonalWinCheckNESW() {
+
+        IGameBoard game = gameB();
+
+        BoardPosition pos = new BoardPosition(0,0);        
+
+        for (int i = 0;game.getNumToWin() > i; i++ ) {
+            pos = new BoardPosition((sizey-10)-i,i+4);
+            game.placeMarker(pos, 'X');
+        }
+       
+        // System.out.println('\n'+game.toString());
 
         assertTrue(game.checkForWinner(pos));
     }
 
     @Test
+    public void diagonalWinCheckSWNE() {
+
+        IGameBoard game = gameB();
+
+        BoardPosition pos = new BoardPosition(0,0);        
+
+        for (int i = 0;game.getNumToWin() > i; i++ ) {
+            pos = new BoardPosition(i +4, 7 - i);
+            game.placeMarker(pos, 'X');
+        }
+       
+        // System.out.println('\n'+game.toString());
+
+        assertTrue(game.checkForWinner(pos));
+    }
+
+    //Places 2 Xs and then a O then the places (game.getNumToWin() - 2) X.
+    //Tests to see if row counting continues after non-target element
+    // is found.
+    @Test
+    public void diagonalWinCheckNESWCheckInterupt() {
+        IGameBoard game = gameB();
+
+        BoardPosition pos = new BoardPosition(0,0);        
+
+        for (int i = 0;game.getNumToWin() > i; i++ ) {
+            pos = new BoardPosition((sizey-10)-i,i);
+            if (i == 2) {
+                game.placeMarker(pos, 'O');
+                BoardPosition newPos = new BoardPosition((sizey-10)-game.getNumToWin(),game.getNumToWin());   
+                game.placeMarker(newPos, 'X');
+    
+            }
+            else game.placeMarker(pos, 'X');
+        }
+
+        // System.out.println('\n'+game.toString());
+
+        assert(game.checkForWinner(pos));
+    }
+
+    // Tests row growing from SE to NW
+    @Test
+    public void diagonalWinCheckNWSW() {
+
+        IGameBoard game = gameB();
+
+        BoardPosition pos = new BoardPosition(0,0);        
+
+        for (int i = 0;game.getNumToWin() > i; i++ ) {
+            pos = new BoardPosition(i,i+4);
+            game.placeMarker(pos, 'X');
+        }
+       
+        // System.out.println('\n'+game.toString());
+
+        assertTrue(game.checkForWinner(pos));
+    }
+
+
+    // Tests row growing from SE to NW
+    @Test
+    public void diagonalWinCheckSENW() {
+
+        IGameBoard game = gameB();
+
+        BoardPosition pos = new BoardPosition(0,0);        
+
+        for (int i = 0;game.getNumToWin() > i; i++ ) {
+            pos = new BoardPosition(game.getNumRows() - i -1, game.getNumColumns() - i - 1);
+            game.placeMarker(pos, 'X');
+        }
+        
+        // System.out.println('\n'+game.toString());
+
+        assertTrue(game.checkForWinner(pos));
+    }
+
+    //Edge case for largest extreme
+    @Test
+    public void diagonalWinCheckNWSE() {
+
+        IGameBoard game = gameB(100,100,25);
+
+        BoardPosition pos = new BoardPosition(0,0);        
+
+        for (int i = 0;game.getNumToWin() > i; i++ ) {
+            pos = new BoardPosition(i,i);
+            game.placeMarker(pos, 'X');
+        }
+       
+        // System.out.println('\n'+game.toString());
+
+        assertTrue(game.checkForWinner(pos));
+    }
+
+    // Tests row growing from NW to SE, with max board size and row win need.
+    @Test
+    public void diagonalWinCheckNWSEMAX() {
+
+        IGameBoard game = gameB();
+
+        BoardPosition pos = new BoardPosition(0,0);        
+
+        for (int i = 0;game.getNumToWin() > i; i++ ) {
+            pos = new BoardPosition(i,i);
+            game.placeMarker(pos, 'X');
+        }
+        
+        // System.out.println('\n'+game.toString());
+
+        assertTrue(game.checkForWinner(pos));
+    }
+
+
+    // Tests row growing from NW to SE, with max board size and row win need.
+    @Test
+    public void diagonalWinCheckNWSEMIN() {
+
+        IGameBoard game = gameB(3,3,3);
+
+        BoardPosition pos = new BoardPosition(0,0);        
+
+        for (int i = 0;game.getNumToWin() > i; i++ ) {
+            pos = new BoardPosition(i,i);
+            game.placeMarker(pos, 'X');
+        }
+        
+        // System.out.println('\n'+game.toString());
+
+        assertTrue(game.checkForWinner(pos));
+    }
+
+// test for draw
+    @Test
     public void drawCheck() {
 
-        int dsizey = 5;
-        int dsizex = 5;
-        int dwin = 5;
+        IGameBoard game = gameB(3,3,3);
 
-        IGameBoard game = new GameBoard(0,0,0);
         if (type == Implentation.FAST)
             game = new GameBoard(sizex,sizey,win);
         if (type == Implentation.MEM)
             game = new GameBoardMem(sizex,sizey,win);
         BoardPosition pos = new BoardPosition(0,0);        
       
-        System.out.println('\n'+game.toString());
+        // System.out.println('\n'+game.toString());
 
         assertTrue(game.checkForWinner(pos));
     }
 
-    @Test
-    public void isPlayerAtPosTest() {
-        IGameBoard game = new GameBoard(0,0,0);
-        if (type == Implentation.FAST)
-            game = new GameBoard(sizex,sizey,win);
-        if (type == Implentation.MEM)
-            game = new GameBoardMem(sizex,sizey,win);
 
-        BoardPosition pos = new BoardPosition(0,0);        
-
-        pos = new BoardPosition(1,1);
-        game.placeMarker(pos, 'X');
-       
-        System.out.println('\n'+game.toString());
-
-        assertTrue(game.isPlayerAtPos(pos,'X'));
-    }
-
+// whatsAtPos testing
     @Test
     public void checkPos() {
 
         IGameBoard game = new GameBoard(0,0,0);
         if (type == Implentation.FAST)
-            game = new GameBoard(sizex,sizey,win);
+            game = new GameBoard(sizex,sizey,game.getNumToWin());
         if (type == Implentation.MEM)
-            game = new GameBoardMem(sizex,sizey,win);
+            game = new GameBoardMem(sizex,sizey,game.getNumToWin());
 
         BoardPosition pos = new BoardPosition(2,5);   
         game.placeMarker(pos, 'O');
     
 
-        System.out.println('\n'+game.toString());
+        // System.out.println('\n'+game.toString());
 
-        System.out.println(pos.toString());
+        // System.out.println(pos.toString());
 
         assert(game.checkForWinner(pos));
     }
 
+//isPlayerAtPos testing
+    @Test
+    public void isPlayerAtPosTest() {
+        IGameBoard game = gameB();
+
+        BoardPosition pos = new BoardPosition(1,1);        
+
+        game.placeMarker(pos, 'X');
+       
+        // System.out.println('\n'+game.toString());
+
+        assertTrue(game.isPlayerAtPos(pos,'X'));
+    }
+
+    
 
     // @Test
     // public void toStringTest() {
