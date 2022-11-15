@@ -455,17 +455,22 @@ public class Testing{
 
 // test for draw
     @Test
-    public void drawCheck() {
+    public void TestCheckForDraw_full_board_() {
 
-        IGameBoard game = gameB(3,3,3);
+        IGameBoard game = gameB(5,5,5);
 
-        if (type == Implentation.FAST)
-            game = new GameBoard(sizex,sizey,win);
-        if (type == Implentation.MEM)
-            game = new GameBoardMem(sizex,sizey,win);
-        BoardPosition pos = new BoardPosition(0,0);        
+        BoardPosition pos = new BoardPosition(0,0);
+        
+        for (int i = 0; game.getNumRows() > i; i++)
+            for (int j = 0; game.getNumColumns() > j; j++) {
+                pos = new BoardPosition(i,j);
+                game.placeMarker(pos, (char)(i+j));
+            }
+
+        
+        
       
-        // System.out.println('\n'+game.toString());
+        System.out.println('\n'+game.toString());
 
         assertTrue(game.checkForWinner(pos));
     }
