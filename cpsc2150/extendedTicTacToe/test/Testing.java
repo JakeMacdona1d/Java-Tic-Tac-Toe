@@ -241,9 +241,6 @@ public class Testing{
 
         game.placeMarker(pos, 'X');
 
-        // System.out.println('\n'+game.toString());
-
-
         assertTrue(game.checkForWinner(pos));
     }
 
@@ -272,31 +269,24 @@ public class Testing{
     //Tests to see if row counting continues after non-target element
     // is found.
     @Test
-    public void verticalCheck3() {
+    public void TestCheckVerticalWin_win_max_row() {
 
-        IGameBoard game = gameB();
-        int randValForRow = 4;
+        IGameBoard game = gameB(100,100,25);
 
         BoardPosition pos = new BoardPosition(0,0);        
 
         for (int i = 0;game.getNumToWin() + 1 > i; i++ ) {
-            pos = new BoardPosition(game.getNumRows() - i -1, game.getNumColumns()/2);
-            if (i ==game.getNumToWin() - 2) {
-                game.placeMarker(pos, 'O');
-            } else {
-                game.placeMarker(pos, 'X');
-            }
+            pos = new BoardPosition(i, game.getNumColumns()/2);
+            game.placeMarker(pos, 'X');
         }
        
-        // System.out.println('\n'+game.toString());
-
         assert(game.checkForWinner(pos));
     }
 
 
     //Tests horizontalgame.getNumToWin() on smallest board withgame.getNumToWin()Need = width = height = 3 
     @Test
-    public void verticalCheck4() {
+    public void TestCheckVerticalWin_win_size_of_board_() {
 
         IGameBoard game = gameB(3,3,3);
         int randValForRow = 1;
@@ -314,7 +304,7 @@ public class Testing{
 
 // checkDiagonalWin
     @Test
-    public void diagonalWinCheckNESW() {
+    public void TestCheckDiagonallWin_win_NE_SW() {
 
         IGameBoard game = gameB();
 
@@ -331,7 +321,7 @@ public class Testing{
     }
 
     @Test
-    public void diagonalWinCheckSWNE() {
+    public void TestCheckDiagonallWin_win_SW_NE() {
 
         IGameBoard game = gameB();
 
@@ -351,7 +341,7 @@ public class Testing{
     //Tests to see if row counting continues after non-target element
     // is found.
     @Test
-    public void diagonalWinCheckNESWCheckInterupt() {
+    public void TestCheckDiagonallWin_no_win_NE_SW_Interupt() {
         IGameBoard game = gameB();
 
         BoardPosition pos = new BoardPosition(0,0);        
@@ -374,7 +364,7 @@ public class Testing{
 
     // Tests row growing from SE to NW
     @Test
-    public void diagonalWinCheckNWSW() {
+    public void TestCheckDiagonal_win_NW_SE() {
 
         IGameBoard game = gameB();
 
@@ -393,7 +383,7 @@ public class Testing{
 
     // Tests row growing from SE to NW
     @Test
-    public void diagonalWinCheckSENW() {
+    public void TestCheckDiagonal_win_SE_NW() {
 
         IGameBoard game = gameB();
 
@@ -411,7 +401,7 @@ public class Testing{
 
     //Edge case for largest extreme
     @Test
-    public void diagonalWinCheckNWSE() {
+    public void TestCheckDiagonal_win_NW_SE() {
 
         IGameBoard game = gameB(100,100,25);
 
@@ -429,7 +419,7 @@ public class Testing{
 
     // Tests row growing from NW to SE, with max board size and row win need.
     @Test
-    public void diagonalWinCheckNWSEMAX() {
+    public void TestCheckDiagonal_win_NW_SE_MAX() {
 
         IGameBoard game = gameB();
 
@@ -445,10 +435,9 @@ public class Testing{
         assertTrue(game.checkForWinner(pos));
     }
 
-
     // Tests row growing from NW to SE, with max board size and row win need.
     @Test
-    public void diagonalWinCheckNWSEMIN() {
+    public void TestCheckDiagonal_win_NW_SE_MIN() {
 
         IGameBoard game = gameB(3,3,3);
 
