@@ -107,8 +107,9 @@ public class Testing{
         game.placeMarker(right, 'X');    
      
 
-        BoardPosition check = new BoardPosition(0,0);    
+        BoardPosition check = new BoardPosition(2,2);    
         
+        System.out.println('\n'+game.toString());
 
         assertTrue(game.checkSpace(check));
     }
@@ -417,7 +418,7 @@ public class Testing{
             game.placeMarker(pos, 'X');
         }
        
-        System.out.println('\n'+game.toString());
+        // System.out.println('\n'+game.toString());
 
         assert(game.checkForWinner(pos));
     }
@@ -474,7 +475,7 @@ public class Testing{
                 game.placeMarker(pos, alphabet++);
             }
 
-        System.out.println('\n'+game.toString());
+        // System.out.println('\n'+game.toString());
 
         assert(game.checkForDraw());
     }
@@ -512,10 +513,10 @@ public class Testing{
                 pos = new BoardPosition(i,j);
                 if (alphabet == 'z') 
                     alphabet = 'A';
-                game.placeMarker(pos, (alphabet++);
+                game.placeMarker(pos, (alphabet++));
             }
 
-        System.out.println('\n'+game.toString());
+        // System.out.println('\n'+game.toString());
 
         assertTrue(game.checkForDraw());
     }
@@ -528,47 +529,152 @@ public class Testing{
         assert(game.checkForDraw());
     }
 
-
-
-
-
 // whatsAtPos testing
-    @Test
-    public void TestWhatsAtPos_space_element() {
+@Test
+public void TestisPlayerAtPos_is_space() {
 
-        IGameBoard game = gameB(10,3,3);
+    IGameBoard game = gameB(10,3,3);
 
-        BoardPosition pos = new BoardPosition(2,5);   
+    BoardPosition pos = new BoardPosition(2,2); 
+    
+    assert(game.isPlayerAtPos(pos,'X'));
+}
 
-        assert(game.whatsAtPos(pos) == ' ');
+
+@Test
+public void TestisPlayerAtPos_diff_token() {
+
+    IGameBoard game = gameB(10,3,3);
+
+    BoardPosition pos = new BoardPosition(2,2); 
+
+    game.placeMarker(pos, 'O');
+    
+    assert(game.isPlayerAtPos(pos,'X'));
+}
+
+@Test
+public void TestWhatsAtPos_top_left_edge() {
+
+    IGameBoard game = gameB(10,3,3);
+
+    BoardPosition pos = new BoardPosition(0,0);   
+
+    game.placeMarker(pos, 'O');
+
+
+    assertTrue(game.isPlayerAtPos(pos, 'O'));
+}
+
+@Test
+public void TestisPlayerAtPos_bottom_right_edge() {
+
+    IGameBoard game = gameB(10,3,3);
+
+    BoardPosition pos = new BoardPosition(game.getNumRows()-1,game.getNumColumns() - 1);   
+
+    game.placeMarker(pos, 'O');
+
+
+    assertTrue(game.isPlayerAtPos(pos, 'O'));
+}
+
+@Test
+public void TestisPlayerAtPos_bottom_left_edge() {
+
+    IGameBoard game = gameB(10,3,3);
+
+    BoardPosition pos = new BoardPosition(0,game.getNumColumns() - 1);   
+
+    game.placeMarker(pos, 'O');
+
+
+    assertTrue(game.isPlayerAtPos(pos, 'O'));
+}
+
+//PlaceMarker
+
+@Test
+public void TestPlaceMarker_top_right_edge() {
+
+    IGameBoard game = gameB(10,3,3);
+
+    BoardPosition pos = new BoardPosition(0,game.getNumColumns() - 1);   
+
+    game.placeMarker(pos, 'O');
+
+    assertTrue(game.isPlayerAtPos(pos, 'O'));
+}
+
+
+@Test
+public void TestPlaceMarker_top_left_edge() {
+
+    IGameBoard game = gameB(10,3,3);
+
+    BoardPosition pos = new BoardPosition(0,0);   
+
+    game.placeMarker(pos, 'O');
+
+    
+
+
+    assertTrue(game.isPlayerAtPos(pos, 'O'));
+}
+
+@Test
+public void TestWhatsAtPos_bottom_right_edge() {
+
+    IGameBoard game = gameB(10,3,3);
+
+    BoardPosition pos = new BoardPosition(game.getNumRows()-1,game.getNumColumns() - 1);   
+
+    game.placeMarker(pos, 'O');
+
+
+    assertTrue(game.isPlayerAtPos(pos, 'O'));
+}
+
+@Test
+public void TestWhatsAtPos_bottom_left_edge() {
+
+    IGameBoard game = gameB(10,3,3);
+
+    BoardPosition pos = new BoardPosition(0,game.getNumColumns() - 1);   
+
+    game.placeMarker(pos, 'O');
+
+
+    assertTrue(game.isPlayerAtPos(pos, 'O'));
+}
+
+@Test
+public void TestisPlaceMarker_surrounded_mid() {
+
+    IGameBoard game = gameB(10,10,5);
+
+    for (int i = 0; 3 > i; i++) {
+        BoardPosition posUp = new BoardPosition(1,1+i); 
+        game.placeMarker(posUp, 'X');   
+        
+        BoardPosition posD = new BoardPosition(3,1+i); 
+        game.placeMarker(posD, 'X');    
     }
 
-    @Test
-    public void TestWhatsAtPos_numeric_element() {
+    BoardPosition left = new BoardPosition(2,1);
+    game.placeMarker(left, 'X');    
 
-        IGameBoard game = gameB(10,3,3);
+    BoardPosition right = new BoardPosition(2,3);   
+    game.placeMarker(right, 'X');    
 
-        BoardPosition pos = new BoardPosition(2,5);   
+    BoardPosition target = new BoardPosition(2,2);    
 
-        game.placeMarker(pos, '5');
+    game.placeMarker(target, 'O');
 
-
-        assert(game.whatsAtPos(pos) == '5');
-    }
-
+    assertTrue(game.isPlayerAtPos(target, 'O'));
+}
 //isPlayerAtPos testing
-    @Test
-    public void isPlayerAtPosTest() {
-        IGameBoard game = gameB();
-
-        BoardPosition pos = new BoardPosition(1,1);        
-
-        game.placeMarker(pos, 'X');
-       
-        // System.out.println('\n'+game.toString());
-
-        assertTrue(game.isPlayerAtPos(pos,'X'));
-    }
+ 
 
     
 
