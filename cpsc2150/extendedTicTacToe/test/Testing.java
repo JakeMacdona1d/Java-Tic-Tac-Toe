@@ -401,20 +401,25 @@ public class Testing{
 
     //Edge case for largest extreme
     @Test
-    public void TestCheckDiagonal_win_NW_SE() {
+    public void TestCheckDiagonallWin_no_win_NW_SE_Interupt() {
 
-        IGameBoard game = gameB(100,100,25);
+        IGameBoard game = gameB(10,10,5);
 
         BoardPosition pos = new BoardPosition(0,0);        
 
-        for (int i = 0;game.getNumToWin() > i; i++ ) {
+        for (int i = 0; game.getNumToWin() > i; i++ ) {
             pos = new BoardPosition(i,i);
+
+            if (i == 2) {
+                game.placeMarker(pos, 'O');
+                continue;
+            }
             game.placeMarker(pos, 'X');
         }
        
-        // System.out.println('\n'+game.toString());
+        System.out.println('\n'+game.toString());
 
-        assertTrue(game.checkForWinner(pos));
+        assert(game.checkForWinner(pos));
     }
 
     // Tests row growing from NW to SE, with max board size and row win need.
@@ -461,40 +466,94 @@ public class Testing{
 
         BoardPosition pos = new BoardPosition(0,0);
         
+        char alphabet = 'A';
+        for (int i = 0; game.getNumRows() > i; i++)
+            for (int j = 0; game.getNumColumns() > j; j++) {
+                if (i == 2 && j == 2) continue;
+                pos = new BoardPosition(i,j);
+                game.placeMarker(pos, alphabet++);
+            }
+
+        System.out.println('\n'+game.toString());
+
+        assert(game.checkForDraw());
+    }
+
+    @Test
+    public void TestCheckForDraw_Max_full_board_win() {
+
+        IGameBoard game = gameB(100,100,25);
+
+        BoardPosition pos = new BoardPosition(0,0);
+        
+        char alphabet = 'A';
         for (int i = 0; game.getNumRows() > i; i++)
             for (int j = 0; game.getNumColumns() > j; j++) {
                 pos = new BoardPosition(i,j);
-                game.placeMarker(pos, (char)(i+j));
+                if (alphabet == 'z') 
+                    alphabet = 'A';
+                game.placeMarker(pos, alphabet++);
             }
 
+
+        assertTrue(game.checkForDraw());
+    }
+
+    @Test
+    public void TestCheckForDraw_Min_full_board_win() {
+
+        IGameBoard game = gameB(3,3,3);
+
+        BoardPosition pos = new BoardPosition(0,0);
         
-        
-      
+        char alphabet = 'A';
+        for (int i = 0; game.getNumRows() > i; i++)
+            for (int j = 0; game.getNumColumns() > j; j++) {
+                pos = new BoardPosition(i,j);
+                if (alphabet == 'z') 
+                    alphabet = 'A';
+                game.placeMarker(pos, (alphabet++);
+            }
+
         System.out.println('\n'+game.toString());
 
-        assertTrue(game.checkForWinner(pos));
+        assertTrue(game.checkForDraw());
     }
+
+    @Test
+    public void TestCheckForDraw_empty_board() {
+
+        IGameBoard game = gameB(10,3,3);
+
+        assert(game.checkForDraw());
+    }
+
+
+
 
 
 // whatsAtPos testing
     @Test
-    public void checkPos() {
+    public void TestWhatsAtPos_space_element() {
 
-        IGameBoard game = new GameBoard(0,0,0);
-        if (type == Implentation.FAST)
-            game = new GameBoard(sizex,sizey,game.getNumToWin());
-        if (type == Implentation.MEM)
-            game = new GameBoardMem(sizex,sizey,game.getNumToWin());
+        IGameBoard game = gameB(10,3,3);
 
         BoardPosition pos = new BoardPosition(2,5);   
-        game.placeMarker(pos, 'O');
-    
 
-        // System.out.println('\n'+game.toString());
+        assert(game.whatsAtPos(pos) == ' ');
+    }
 
-        // System.out.println(pos.toString());
+    @Test
+    public void TestWhatsAtPos_numeric_element() {
 
-        assert(game.checkForWinner(pos));
+        IGameBoard game = gameB(10,3,3);
+
+        BoardPosition pos = new BoardPosition(2,5);   
+
+        game.placeMarker(pos, '5');
+
+
+        assert(game.whatsAtPos(pos) == '5');
     }
 
 //isPlayerAtPos testing
