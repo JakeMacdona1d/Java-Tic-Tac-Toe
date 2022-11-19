@@ -16,11 +16,11 @@ public class Testing{
     int win = 5;
 
     private IGameBoard gameB() {	
-        return new GameBoard(sizex, sizey, win);
+        return new GameBoardMem(sizex, sizey, win);
     }
 
     private IGameBoard gameB(int x, int y, int z) {	
-        return new GameBoard(x, y, z);
+        return new GameBoardMem(x, y, z);
     }
 
     enum Implentation {FAST,MEM};
@@ -312,11 +312,11 @@ public class Testing{
         BoardPosition pos = new BoardPosition(0,0);        
 
         for (int i = 0;game.getNumToWin() > i; i++ ) {
-            pos = new BoardPosition((sizey-10)-i,i+4);
+            pos = new BoardPosition((game.getNumRows()-10)-i,i+4);
             game.placeMarker(pos, 'X');
         }
        
-        // System.out.println('\n'+game.toString());
+        System.out.println('\n'+game.toString());
 
         assertTrue(game.checkForWinner(pos));
     }
@@ -554,14 +554,15 @@ public void TestisPlayerAtPos_diff_token() {
 }
 
 @Test
-public void TestWhatsAtPos_top_left_edge() {
+public void TestWhatsAtPos_top_left_edge_empty() {
 
     IGameBoard game = gameB(10,3,3);
 
     BoardPosition pos = new BoardPosition(0,0);   
 
-    game.placeMarker(pos, 'O');
-
+    // game.placeMarker(pos, 'O');
+ 
+    // System.out.println('\n'+game.toString());
 
     assertTrue(game.isPlayerAtPos(pos, 'O'));
 }

@@ -6,6 +6,9 @@ import java.util.*;
  * class operating akin to qualities of a tic-tac-toe gameboard
  * @invariant  0 <= colNum * rowNum) AND winNeed = #winNeed 
  *              And colNum = #colNum AND rowNum = #rowNum 
+ *              AND rowNum = [MIN_ROW_NUM, MAX_ROW_NUM] 
+ *              AND colNum = [MIN_COL_NUM, MAX_COL_NUM]
+ *              AND winNeed = [MIN_WIN_NUM, MAX_WIN_NUM]
  * 
  * @correspondences self = board[Unique Keys linked to a corresponding ArrayList of BoardPositions]
  */
@@ -19,9 +22,16 @@ public class GameBoardMem extends AbsGameBoard implements IGameBoard{
 
     /**
      * This constructor creates a gameboard defined in 2 dimensions of characters.
+     * @param row represents the number of rows present on the board.
+     * @param col represents the number of columns present on the board.
+     * @param winNum represents the value of the winNeed state for the board.
+     * 
+     * @pre row = [MIN_ROW_NUM, MAX_ROW_NUM] AND col = [MIN_COL_NUM, MAX_COL_NUM]
+     *             AND winNum = [MIN_WIN_NUM, MAX_WIN_NUM]
      * @post For all elements of board  = ' ' AND board = #board except [for all elements of board set to ' '] 
+     *      AND values of row, col, and winNum are stored in corresponding private variables.
      */
-    public GameBoardMem(int col, int row, int winNum) {
+    public GameBoardMem(int row, int col, int winNum) {
         colNum = col;
         rowNum = row;
         winNeed = winNum;

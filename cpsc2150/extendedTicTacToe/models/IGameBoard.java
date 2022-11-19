@@ -9,12 +9,13 @@ package cpsc2150.extendedTicTacToe.models;
  * a table of two dimensions containing characters. Each element 
  *  of the GameBoard initiates with a value of ' '. Additionally, 
  * the gameboard is of dimensions A X B, such that A and B are elements
- * of ALL integers in the range [3, 100]. 
+ * of ALL integers in the range [MIN_DIMEN, MAX_DIMEN]. Further, the number of rows should
+ * be set within the range [MIN_WIN, MAX_WIN].
  * 
  * Defines: NumRows : Z AND NumColumns: Z AND NumToWin: Z
  * 
- * Constraints: 0 <= Turns <= (NumRows * NumColumns) AND NumToWin = #NumToWin
- *  AND NumColumns = #NumColumns AND NumRows = #NumRows
+ * Constraints: NumToWin = #NumToWin
+ *  AND NumColumns = #NumColumns AND NumRows = #NumRows 
  */
 public interface IGameBoard {  
     /**
