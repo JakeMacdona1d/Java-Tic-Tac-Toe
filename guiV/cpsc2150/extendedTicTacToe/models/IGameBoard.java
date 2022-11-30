@@ -1,5 +1,5 @@
 // Jake Macdonald 
-package cpsc2150.extendedTicTacToe.models;
+package guiV.cpsc2150.extendedTicTacToe.models;
 
 /**
  * IGameBoard is an abstractly defined class that represents a 

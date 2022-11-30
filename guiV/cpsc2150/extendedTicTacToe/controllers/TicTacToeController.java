@@ -1,4 +1,4 @@
-package cpsc2150.extendedTicTacToe.controllers;
+package guiV.cpsc2150.extendedTicTacToe.controllers;
 
 import cpsc2150.extendedTicTacToe.models.*;
 import cpsc2150.extendedTicTacToe.views.*;
@@ -49,6 +49,12 @@ public class TicTacToeController {
      */
     private int numPlayers;
 
+
+    private int movesPlayed;
+
+    private char tokens[]; 
+    // = {'X','O','Z','A','M','S','Q','R','J','V','H'};
+
     /**
      * <p>
      * This creates a controller for running the Extended TicTacToe game
@@ -67,6 +73,8 @@ public class TicTacToeController {
         this.curGame = model;
         this.screen = view;
         this.numPlayers = np;
+        movesPlayed = 0;
+        tokens = new char[] {'X','O','Z','A','M','S','Q','R','J','V','H'};
 
         // Some code is needed here.
     }
@@ -86,7 +94,29 @@ public class TicTacToeController {
      * game hitting any button ]
      */
     public void processButtonClick(int row, int col) {
-        // Your code goes here.
+        screen.setMessage("It is " + tokens[movesPlayed % numPlayers] + "'s turn.");
+
+        BoardPosition pos = new BoardPosition(row, col);
+        if (curGame.checkSpace(pos) == false) {
+            screen.setMessage("That space is unavailble, please pick again\n" +
+                    "It is " + tokens[movesPlayed % numPlayers] + "'s turn.");
+            return;
+        }
+
+
+        curGame.placeMarker(pos, tokens[movesPlayed % numPlayers]);
+
+        screen.setMarker(row, col, tokens[movesPlayed % numPlayers]);
+
+
+        if (curGame.checkForWinner(pos)) {
+            screen.setMessage("Player ")
+            newGame();
+
+        } else if (curGame.checkForWinner(pos)) {
+
+        }
+        movesPlayed++;
     }
 
     /**

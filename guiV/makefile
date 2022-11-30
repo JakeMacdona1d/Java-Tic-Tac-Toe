@@ -12,6 +12,8 @@ run: ${PACKAGE}/*.class
 clean:
 	rm -f ${PACKAGE}/TicTacToeGame.class
 	rm -f ${PACKAGE}/models/*.class
+	rm -f ${PACKAGE}/views/*.class
+	rm -f ${PACKAGE}/controllers/*.class
 
 zip:
 	rm project.zip
@@ -27,6 +29,16 @@ testGBmem: ${PACKAGE}/models/*.class
 	java -cp .:/usr/share/java/junit4.jar org.junit.runner.JUnitCore cpsc2150.extendedTicTacToe.models.TestGameBoardMem
 
 testing: default test testGB testGBmem
+
+guiSet:
+	export DISPLAY="`grep nameserver /etc/resolv.conf | sed 's/nameserver //'`:0"
+	export DISPLAY="`sed -n 's/nameserver //p' /etc/resolv.conf`:0"
+	export DISPLAY=$(ip route|awk '/^default/{print $3}'):0.0
+	echo xfce4-session > ~/.xsession
+
+
+
+
 
 
 

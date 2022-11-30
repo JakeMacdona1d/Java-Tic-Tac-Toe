@@ -1,4 +1,4 @@
-package cpsc2150.extendedTicTacToe.models;
+package guiV.cpsc2150.extendedTicTacToe.models;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import cpsc2150.extendedTicTacToe.models.BoardPosition;
@@ -6,11 +6,11 @@ import cpsc2150.extendedTicTacToe.models.IGameBoard;
 import cpsc2150.extendedTicTacToe.models.GameBoard;
 import cpsc2150.extendedTicTacToe.models.GameBoardMem;
 
-public class TestGameBoard{
+public class TestGameBoardMem{
 
 
     private IGameBoard gameB(int y, int x, int z) {	
-        return new GameBoard(y, x, z);
+        return new GameBoardMem(y, x, z);
     }
 
 

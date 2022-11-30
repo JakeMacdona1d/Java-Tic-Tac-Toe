@@ -1,5 +1,5 @@
 // Jake Macdonald 
-package cpsc2150.extendedTicTacToe.models;
+package guiV.cpsc2150.extendedTicTacToe.models;
 
 /**
  * class operating akin to qualities of a tic-tac-toe gameboard
