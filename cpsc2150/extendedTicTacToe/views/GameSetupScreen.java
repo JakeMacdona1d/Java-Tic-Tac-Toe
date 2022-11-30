@@ -1,4 +1,4 @@
-package guiV.cpsc2150.extendedTicTacToe.views;
+package cpsc2150.extendedTicTacToe.views;
 
 import cpsc2150.extendedTicTacToe.controllers.GameSetupController;
 

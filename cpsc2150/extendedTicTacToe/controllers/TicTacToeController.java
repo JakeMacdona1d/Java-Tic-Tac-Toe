@@ -1,4 +1,4 @@
-package guiV.cpsc2150.extendedTicTacToe.controllers;
+package cpsc2150.extendedTicTacToe.controllers;
 
 import cpsc2150.extendedTicTacToe.models.*;
 import cpsc2150.extendedTicTacToe.views.*;
@@ -94,7 +94,11 @@ public class TicTacToeController {
      * game hitting any button ]
      */
     public void processButtonClick(int row, int col) {
-        screen.setMessage("It is " + tokens[movesPlayed % numPlayers] + "'s turn.");
+
+        if (curGame == null) {
+            newGame();
+            return;
+        }
 
         BoardPosition pos = new BoardPosition(row, col);
         if (curGame.checkSpace(pos) == false) {
@@ -109,14 +113,17 @@ public class TicTacToeController {
         screen.setMarker(row, col, tokens[movesPlayed % numPlayers]);
 
 
+        String newGameText = "\nTo start a new game, click on any button.";
         if (curGame.checkForWinner(pos)) {
-            screen.setMessage("Player ")
-            newGame();
+            screen.setMessage("Player " + tokens[movesPlayed % numPlayers] + " wins!" + newGameText);
+            curGame = null;
 
         } else if (curGame.checkForWinner(pos)) {
-
+            screen.setMessage("Draw game!" + newGameText);
+            curGame = null;
+        } else {
+            screen.setMessage("It is " + tokens[(++movesPlayed) % numPlayers] + "'s turn.");
         }
-        movesPlayed++;
     }
 
     /**

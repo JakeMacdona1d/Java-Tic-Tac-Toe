@@ -1,4 +1,4 @@
-package guiV.cpsc2150.extendedTicTacToe.views;
+package cpsc2150.extendedTicTacToe.views;
 
 import cpsc2150.extendedTicTacToe.controllers.TicTacToeController;
 
@@ -27,7 +27,7 @@ public final class TicTacToeView extends JFrame implements ActionListener {
     private final JTextArea message;
     private final List<JButton> buttons;
 
-    private static final int LINES_IN_TEXT = 4, LINE_TEXT_LENGTHS = 20;
+    private static final int LINES_IN_TEXT = 2, LINE_TEXT_LENGTHS = 20;
     private static int ROWS_IN_BUTTON_PANEL;
 
     private static int COLUMNS_IN_BUTTON_PANEL;
@@ -59,8 +59,18 @@ public final class TicTacToeView extends JFrame implements ActionListener {
         this.message.setWrapStyleWord(true);
         message.setFont(message.getFont().deriveFont(fontSize));
 
+        // Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
+        // int screenWidth = (int)size.getWidth();
+
+        // int screenheight = (int)size.getHeight();
+
         //Add buttons to our list of buttons
         buttons = new ArrayList<>();
+
+        
+
+
+
         for (int i = 0; i < ROWS_IN_BUTTON_PANEL * COLUMNS_IN_BUTTON_PANEL; i++) {
             JButton button = new JButton("");
             button.setPreferredSize(new Dimension(50, 50));
