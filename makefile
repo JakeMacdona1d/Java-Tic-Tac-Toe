@@ -3,14 +3,17 @@ PACKAGE = cpsc2150/extendedTicTacToe
 default: ${PACKAGE}/models/*.java ${PACKAGE}/controllers/*.java ${PACKAGE}/views/*.java ${PACKAGE}/*.java
 	javac ${PACKAGE}/models/AbsGameBoard.java ${PACKAGE}/models/BoardPosition.java ${PACKAGE}/models/GameBoard.java 
 	javac ${PACKAGE}/models/GameBoardMem.java ${PACKAGE}/models/IGameBoard.java
-	javac ${PACKAGE}/controllers/*.java ${PACKAGE}/views/*.java ${PACKAGE}/TicTacToeGame.java
+	javac ${PACKAGE}/controllers/*.java ${PACKAGE}/views/*.java ${PACKAGE}/*.java
 
 
 run: ${PACKAGE}/*.class
+	java cpsc2150.extendedTicTacToe.GameScreen
+
+runGUI: ${PACKAGE}/*.class
 	java cpsc2150.extendedTicTacToe.TicTacToeGame
 
 clean:
-	rm -f ${PACKAGE}/TicTacToeGame.class
+	rm -f ${PACKAGE}/*.class
 	rm -f ${PACKAGE}/models/*.class
 	rm -f ${PACKAGE}/views/*.class
 	rm -f ${PACKAGE}/controllers/*.class

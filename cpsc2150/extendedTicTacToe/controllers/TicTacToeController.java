@@ -117,8 +117,7 @@ public class TicTacToeController {
         if (curGame.checkForWinner(pos)) {
             screen.setMessage("Player " + tokens[movesPlayed % numPlayers] + " wins!" + newGameText);
             curGame = null;
-
-        } else if (curGame.checkForWinner(pos)) {
+        } else if (curGame.checkForDraw()) {
             screen.setMessage("Draw game!" + newGameText);
             curGame = null;
         } else {
